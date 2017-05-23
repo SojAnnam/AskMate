@@ -26,11 +26,13 @@ def show_list():
 @app.route("/question/<question_id>")
 def question_details(question_id):
     '''Renders question_details.html with the details of a given question'''
-    question_table = function.sql_query_get("""SELECT * FROM question;""")
+    question_query = ("SELECT * FROM question WHERE id={};".format(question_id))
+    question_table = function.sql_query_get(question_query)
     answer_query = ("SELECT * FROM answer WHERE question_id = {};".format(question_id))
     answer_table = function.sql_query_get(str(answer_query))
+
     return render_template("question_details.html",
-                           question=question_table,
+                           question=question_table[0],
                            answers=answer_table,
                            question_id=int(question_id))
 
@@ -58,7 +60,14 @@ def add_new_question():
 def delete_question(question_id):
     '''Deletes a given question, then redirects to "./list"'''
     if request.method == 'POST':
-
+        sql_to_delete_question_tag = ("DELETE FROM question_tag WHERE question_id={};".format(question_id))
+        sql_to_delete_answer = ("DELETE FROM  answer WHERE question_id={};".format(question_id))
+        sql_to_delete_comment = ("DELETE FROM comment WHERE question_id={};".format(question_id))
+        sql_to_delete_question = ("DELETE FROM question WHERE id={};".format(question_id))
+        function.sql_query_post(str(sql_to_delete_question_tag))
+        function.sql_query_post(str(sql_to_delete_answer))
+        function.sql_query_post(str(sql_to_delete_comment))
+        function.sql_query_post(str(sql_to_delete_question))
         return redirect('./list')
 
 
@@ -70,7 +79,12 @@ def new_answer(question_id):
         return render_template("answer.html", question_id=question_id)
 
     if request.method == 'POST':
-
+        submission_time = datetime.datetime.now()
+        vote_number = '0'
+        answer_message = request.form["newanswer"]
+        sql_to_insert_answer = ("INSERT INTO answer (submission_time,vote_number,question_id,message) VALUES ('{}','{}','{}','{}');".format(
+            submission_time, vote_number, question_id, answer_message))
+        function.sql_query_post(str(sql_to_insert_answer))
         return redirect("/question/{}".format(question_id))
 
 
