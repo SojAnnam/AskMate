@@ -121,26 +121,14 @@ def edit_question(question_id):
 @app.route('/question/<question_id>/vote-up', methods=['POST', 'GET'])
 def question_vote_up(question_id):
     '''Increases the vote count of the given question'''
-    question_query = ("SELECT vote_number FROM question WHERE id={};".format(question_id))
-    vote_number = function.sql_query_get(question_query)
-    votes = int(vote_number[0][0])
-    votes += 1
-    sql_to_edit_question_vote = ("UPDATE question SET vote_number= {} WHERE id= {};".format(
-        votes, question_id))
-    function.sql_query_post(str(sql_to_edit_question_vote))
+    function.vote_update_sql_query('question', question_id, 'up')
     return redirect('./list')
 
 
 @app.route('/question/<question_id>/vote-down', methods=['POST', 'GET'])
 def question_vote_down(question_id):
     '''Decreases the vote count of the given question'''
-    question_query = ("SELECT vote_number FROM question WHERE id={};".format(question_id))
-    vote_number = function.sql_query_get(question_query)
-    votes = int(vote_number[0][0])
-    votes -= 1
-    sql_to_edit_question_vote = ("UPDATE question SET vote_number= {} WHERE id= {};".format(
-        votes, question_id))
-    function.sql_query_post(str(sql_to_edit_question_vote))
+    function.vote_update_sql_query('question', question_id, 'down')
     return redirect('./list')
 
 
@@ -148,13 +136,7 @@ def question_vote_down(question_id):
 def answer_vote_up(answer_id):
     '''Increases the vote count of the given answer'''
     question_id = request.form['questionid']
-    question_query = ("SELECT vote_number FROM answer WHERE id={};".format(answer_id))
-    vote_number = function.sql_query_get(question_query)
-    votes = int(vote_number[0][0])
-    votes += 1
-    sql_to_edit_answer_vote = ("UPDATE answer SET vote_number= {} WHERE id= {};".format(
-        votes, answer_id))
-    function.sql_query_post(str(sql_to_edit_answer_vote))
+    function.vote_update_sql_query('answer', answer_id, 'up')
     return redirect("./question/{}".format(question_id))
 
 
@@ -162,13 +144,7 @@ def answer_vote_up(answer_id):
 def answer_vote_down(answer_id):
     '''Decreases the vote count of the given answer'''
     question_id = request.form['questionid']
-    question_query = ("SELECT vote_number FROM answer WHERE id={};".format(answer_id))
-    vote_number = function.sql_query_get(question_query)
-    votes = int(vote_number[0][0])
-    votes -= 1
-    sql_to_edit_answer_vote = ("UPDATE answer SET vote_number= {} WHERE id= {};".format(
-        votes, answer_id))
-    function.sql_query_post(str(sql_to_edit_answer_vote))
+    function.vote_update_sql_query('answer', answer_id, 'down')
     return redirect("./question/{}".format(question_id))
 
 

@@ -7,7 +7,7 @@ import psycopg2
 
 def sql_query_get(query):
     try:
-        connect_str = "dbname='markorkenyi' user='markorkenyi' host='localhost' password='shadow123'"
+        connect_str = "dbname='' user='' host='localhost' password=''"
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
     except:
@@ -21,7 +21,7 @@ def sql_query_get(query):
 
 def sql_query_post(query):
     try:
-        connect_str = "dbname='markorkenyi' user='markorkenyi' host='localhost' password='shadow123'"
+        connect_str = "dbname='potyi' user='potyi' host='localhost' password='joinme9'"
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
     except:
@@ -42,22 +42,14 @@ def convert_time(input_, type_):
         return input_.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def get_new_id(filepath, type_of_csv):
-    '''Returns a new ID for the entry. If no entry is present, the first ID will be 1'''
-    id_ = ['0']
-    data = read_csv(filepath, type_of_csv)
-    for row in data:
-        id_.append(row[0])
-    max_id = max(map(int, id_))
-    return (int(max_id) + 1)
-
-
-def remove(file_data, id_, index_):
-    '''Removes the matching row from the csv_data, and returns csv_data'''
-    to_pop = []
-    for index, elements in enumerate(file_data):
-        if elements[index_] == id_:
-            to_pop.append(index)
-    for i in reversed(list(map(int, to_pop))):
-        file_data.pop(i)
-    return file_data
+def vote_update_sql_query(table, _id, direction):
+    select_query = ("SELECT vote_number FROM {} WHERE id={};".format(table, _id))
+    vote_number = sql_query_get(select_query)
+    votes = int(vote_number[0][0])
+    if direction == 'up':
+        votes += 1
+    elif direction == 'down':
+        votes -= 1
+    sql_to_edit_vote = ("UPDATE {} SET vote_number= {} WHERE id= {};".format(
+        table, votes, _id))
+    sql_query_post(str(sql_to_edit_vote))
