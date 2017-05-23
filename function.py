@@ -5,7 +5,7 @@ import datetime
 import psycopg2
 
 
-def sql_query(query):
+def sql_query_get(query):
     try:
         connect_str = "dbname='markorkenyi' user='markorkenyi' host='localhost' password='shadow123'"
         conn = psycopg2.connect(connect_str)
@@ -14,9 +14,22 @@ def sql_query(query):
         print("I am unable to connect to the database")
     cur = conn.cursor()
     cur.execute(query)
-    question_table = cur.fetchall()
-    question_table = (list(map(list, question_table)))
-    return question_table
+    table = cur.fetchall()
+    table = (list(map(list, table)))
+    return table
+
+
+def sql_query_post(query):
+    try:
+        connect_str = "dbname='markorkenyi' user='markorkenyi' host='localhost' password='shadow123'"
+        conn = psycopg2.connect(connect_str)
+        conn.autocommit = True
+    except:
+        print("I am unable to connect to the database")
+    cur = conn.cursor()
+    cur.execute(query)
+    conn.close()
+    return None
 
 
 def convert_time(input_, type_):

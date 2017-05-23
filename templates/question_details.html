@@ -55,9 +55,9 @@
 
 <body>
     <div>
-        <h1>{{question_title}}</h1>
+        <h1>{{question[question_id][4]}}</h1>
         <p>
-            <h3>{{question_message}}</h3>
+            <h3>{{question[question_id][5]}}</h3>
         </p>
         <p>
             <h2 style="color:salmon">Question Details</h2>
@@ -70,10 +70,10 @@
                 <th class="details" align="left">Vote</th>
             </tr>
             <tr>
-                <td class="details">{{question[0]}}</td>
-                <td class="details">{{question[1]}}</td>
-                <td class="details">{{question[2]}}</td>
-                <td class="details">{{question[3]}}</td>
+                <td class="details">{{question[question_id][0]}}</td>
+                <td class="details">{{question[question_id][1]}}</td>
+                <td class="details">{{question[question_id][2]}}</td>
+                <td class="details">{{question[question_id][3]}}</td>
             </tr>
         </table>
         <form action=./{{question_id}}/edit method="GET">

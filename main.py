@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import function
-import time
+import datetime
 
 
 app = Flask(__name__)
@@ -19,22 +19,20 @@ def show_list():
                   "Time",
                   "Delete"
                   ]
-    question_table = function.sql_query("""SELECT * FROM question;""")
-    print("***************************")
-    print(type(question_table))
+    question_table = function.sql_query_get("""SELECT * FROM question;""")
     return render_template('list.html', question_table=question_table, header_row=header_row)
 
 
 @app.route("/question/<question_id>")
 def question_details(question_id):
     '''Renders question_details.html with the details of a given question'''
-
+    question_table = function.sql_query_get("""SELECT * FROM question;""")
+    answer_query = ("SELECT * FROM answer WHERE question_id = {};".format(question_id))
+    answer_table = function.sql_query_get(str(answer_query))
     return render_template("question_details.html",
-                           question_title=question_title,
-                           question_message=question_message,
-                           question=question,
-                           answers=answers,
-                           question_id=question_id)
+                           question=question_table,
+                           answers=answer_table,
+                           question_id=int(question_id))
 
 
 @app.route('/newquestion', methods=['GET', 'POST'])
@@ -45,7 +43,14 @@ def add_new_question():
         return render_template("question.html")
 
     if request.method == "POST":
-
+        time = datetime.datetime.now()
+        view_number = '0'
+        vote_number = '0'
+        title = request.form["title"]
+        message = request.form["message"]
+        sql_to_insert = ("INSERT INTO question (submission_time,view_number,vote_number,title,message) VALUES ('{}','{}','{}','{}','{}');".format(
+            time, view_number, vote_number, title, message))
+        function.sql_query_post(str(sql_to_insert))
         return redirect("./")
 
 
