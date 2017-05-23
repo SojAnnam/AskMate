@@ -104,11 +104,17 @@ def edit_question(question_id):
     '''Renders question.html to edit a given question, then updates the question in the csv file
     \n Redirects to the question's detail page'''
     if request.method == 'GET':
-
-        return render_template("question.html", question_id=question_id, message=question_message, title=question_title)
+        question_query = ("SELECT * FROM question WHERE id={};".format(question_id))
+        edit_question_row = function.sql_query_get(question_query)
+        print(edit_question_row)
+        return render_template("question.html", question_id=question_id, message=edit_question_row[0][5], title=edit_question_row[0][4])
 
     if request.method == 'POST':
-
+        question_title = request.form['title']
+        question_message = request.form['message']
+        sql_to_edit_question = ("UPDATE question SET title= '{}', message='{}' WHERE id= {};".format(
+            question_title, question_message, question_id))
+        function.sql_query_post(str(sql_to_edit_question))
         return redirect("/question/{}".format(question_id))
 
 
