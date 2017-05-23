@@ -88,6 +88,17 @@ def new_answer(question_id):
         return redirect("/question/{}".format(question_id))
 
 
+@app.route('/answer/<answer_id>/delete', methods=['GET', 'POST'])
+def delete_answer(answer_id):
+    '''Deletes given answer, then redirects to the question's detail page'''
+    question_id = request.form['questionid']
+    sql_to_delete_comment = ("DELETE FROM comment WHERE answer_id={};".format(answer_id))
+    sql_to_delete_answer = ("DELETE FROM  answer WHERE id={};".format(answer_id))
+    function.sql_query_post(str(sql_to_delete_comment))
+    function.sql_query_post(str(sql_to_delete_answer))
+    return redirect("/question/{}".format(question_id))
+
+
 @app.route("/question/<question_id>/edit", methods=['POST', 'GET'])
 def edit_question(question_id):
     '''Renders question.html to edit a given question, then updates the question in the csv file
@@ -126,12 +137,6 @@ def answer_vote_down(answer_id):
     '''Decreases the vote count of the given answer'''
 
     return redirect("./question/{}".format(question_id))
-
-
-@app.route('/answer/<answer_id>/delete', methods=['GET', 'POST'])
-def delete_answer(answer_id):
-    '''Deletes given answer, then redirects to the question's detail page'''
-    return redirect("/question/{}".format(question_id))
 
 
 if __name__ == '__main__':
