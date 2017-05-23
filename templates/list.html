@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<style>
+    img {
+        vertical-align: middle;
+    }
+    
+    h1 {
+        font-size: 40px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 80%;
+    }
+    
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+    
+    th.list {
+        font-size: 15px;
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 4px;
+        background-color: palegreen;
+    }
+</style>
+
+<head>
+    <title>Questions List</title>
+</head>
+
+<body>
+    <center>
+        <h1>AskMate</h1>
+        <form action="./newquestion" method="GET">
+            <input type="submit" value="Ask New Question" style="font-size: 30px" />
+        </form>
+        <h2>List of Questions</h2>
+        <p></p>
+        <table class="list">
+            <tr>
+                {% for cell in header_row %}
+                <th class="list">{{ cell }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in question_table %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td><a href="./question/{{row[0]}}">{{ row[4] }}</td>
+        <td>{{ row[5] }}</td>
+        <td width:"300px">{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+        <td><a href='./question/{{row[0]}}/vote-up'> &#9650;<br>
+        <a href='./question/{{row[0]}}/vote-down'>&#9660; </td>
+        <td>{{ row[1] }}</td>
+        <td>
+            <form action="./question/{{ row[0] }}/delete" method="POST">
+                <input type="submit" value="Delete" />
+            </form>
+        </td>
+        </tr>
+         
+        {% endfor %}
+        
+    </table>
+
+ <footer>
+    <p> <font size="2"> Created by: <img src="/static/beanbaglogo.png" alt="BeanBag Team"> </font></p>
+    <p><font size="1"> We <em>DO</em> accept donations ;) </font></p>
+    
+</footer> 
+</center>
+</body>
+
+</html>

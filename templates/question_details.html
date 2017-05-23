@@ -1,0 +1,132 @@
+<html>
+
+<head>
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
+    <title>Question details</title>
+    <style>
+        table.answers {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 70%;
+        }
+        
+        table.details {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 20%;
+        }
+        
+        td.answers,
+        {}
+        
+        th.answers {
+            font-size: 15px;
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 4px;
+            background-color: palegreen;
+        }
+        
+        th.details {
+            font-size: 15px;
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 4px;
+            background-color: lightsalmon;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+        
+        h3 {
+            font-size: 20px;
+        }
+        
+        h1 {
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>{{question_title}}</h1>
+        <p>
+            <h3>{{question_message}}</h3>
+        </p>
+        <p>
+            <h2 style="color:salmon">Question Details</h2>
+        </p>
+        <table class="details">
+            <tr>
+                <th class="details" align="left">ID</th>
+                <th class="details" align="left">Time</th>
+                <th class="details" align="left">Views</th>
+                <th class="details" align="left">Vote</th>
+            </tr>
+            <tr>
+                <td class="details">{{question[0]}}</td>
+                <td class="details">{{question[1]}}</td>
+                <td class="details">{{question[2]}}</td>
+                <td class="details">{{question[3]}}</td>
+            </tr>
+        </table>
+        <form action=./{{question_id}}/edit method="GET">
+            <p><input type="submit" name="editquestion" value="Edit question" id="editquestion" style="font-size: 15px"></p>
+        </form>
+        <p>
+            <h2 style="color: limegreen">Answers</h2>
+        </p>
+
+        <table class="answers">
+            <tr>
+                <th class="answers" align="center">ID</th>
+                <th class="answers" align="center">Time</th>
+                <th class="answers" align="center">Answer</th>
+                <th class="answers" align="center">Votes</th>
+                <th class="answers" align="center"></th>
+                <th class="answers" align="center"></th>
+            </tr>
+            {% for row in answers %}
+            <tr>
+                <td width="5%" class="answers" align="center">{{row[0]}}</td>
+                <td width="10%" class="answers" align="center">{{row[1]}}</td>
+                <td width="70%" class="answers" align="left">{{row[4]}}</td>
+                <td width="5%" class="answers" align="center">{{row[2]}}</td>
+                <td width="5%">
+                    <br>
+                    <form action="/answer/{{ row[0] }}/vote-up" method="POST">
+                        <input type=hidden value="{{question_id}}" name="questionid" />
+                        <input align="center" type="submit" value="&#9650;" />
+                    </form>
+                    <form action="/answer/{{ row[0] }}/vote-down" method="POST">
+                        <input type=hidden value="{{question_id}}" name="questionid" />
+                        <input align="center" type="submit" value="&#9660;" />
+                    </form>
+                </td>
+                <td width="5%">
+                    <form action="/answer/{{ row[0] }}/delete" method="POST">
+                        <input type=hidden value="{{question_id}}" name="questionid" />
+                        <input align="center" type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <form action=./{{question_id}}/new-answer method="GET">
+            <p><input type="submit" name="newanswer" value="New answer" id="newanswer" style="font-size: 20px"></p>
+        </form>
+        <p><a href="/list">Back to Home</a></p>
+        <footer>
+            <p>
+                <font size="2"> Created by: BeanBag Team </font>
+            </p>
+        </footer>
+</body>
+
+</html>

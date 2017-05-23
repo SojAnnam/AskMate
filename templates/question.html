@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
+    {% if question_id %}
+    <title>Edit Question</title>
+    {% else %}
+    <title>Add New Question</title>
+    {% endif %}
+
+
+    <style>
+        h2 {
+            font-family: arial, sans-serif;
+            font-size: 40px;
+        }
+        
+        h3 {
+            font-family: arial, sans-serif;
+            color: black;
+            font-size: 15px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    {% if question_id %}
+    <form action="/question/{{question_id}}/edit" , method="POST">
+        <h2 style="color: salmon">Edit Question</h2>
+        <h3><label for="title">Edit Title</label><br>
+            <input type="text" size="30" name="title" id="title" value='{{title}}' style="font-size: 15px">
+            <p><label for="story">Edit Question</label><br>
+                <textarea name="message" id="message" rows="5" cols="40" style="font-size: 15px" minlength="10">{{message}} </textarea></p>
+            <p><input type="submit" value="Edit Question" style="font-size: 20px"></p>
+        </h3>
+    </form>
+    {% else %}
+    <form action='/newquestion' , method="POST">
+        <h2 style="color:limegreen">Add New Question</h2>
+        <h3><label for="title">Title</label><br>
+            <input type="text" size="30" name="title" id="title" value='{{title}}' style="font-size:15px">
+            <p><label for="story">New Question</label><br>
+                <textarea name="message" id="message" rows="5" cols="40" style="font-size:15px" minlength="10">{{message}}</textarea></p>
+            <p><input type="submit" value="Add new Question" style="font-size:20px"></p>
+        </h3>
+    </form>
+    {% endif %}
+    <button onclick="goBack()">Back</button>
+</body>
+
+</html>
