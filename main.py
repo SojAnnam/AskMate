@@ -36,9 +36,9 @@ def show_list_latest():
 @app.route("/question/<question_id>")
 def question_details(question_id):
     '''Renders question_details.html with the details of a given question'''
-    question_table = function.select__query('question', 'id', question_id)
-    answer_table = function.select__query('answer', 'question_id', question_id)
-    question_comment_table = function.select__query('comment', 'question_id', question_id)
+    question_table = function.select_query('*', 'question', 'id', question_id)
+    answer_table = function.select_query('*', 'answer', 'question_id', question_id)
+    question_comment_table = function.select_query('*', 'comment', 'question_id', question_id)
     answer_comment_query = ("SELECT comment.id,comment.question_id,comment.answer_id,comment.message,comment.submission_time,comment.edited_count FROM comment LEFT JOIN answer ON comment.answer_id=answer.id WHERE answer.question_id={};".format(question_id))
     answer_comment_table = function.sql_query_get(str(answer_comment_query))
     return render_template("question_details.html",
@@ -98,7 +98,7 @@ def edit_question(question_id):
     '''Renders question.html to edit a given question, then updates the question in the csv file
     \n Redirects to the question's detail page'''
     if request.method == 'GET':
-        edit_question_row = function.select_query('question', 'id', question_id)
+        edit_question_row = function.select_query('*', 'question', 'id', question_id)
         return render_template("question.html", question_id=question_id, message=edit_question_row[0][5], title=edit_question_row[0][4])
 
     if request.method == 'POST':
@@ -153,8 +153,7 @@ def add_new__answer_comment(answer_id):
 
     if request.method == 'POST':
         function.add_new_comment(answer_id, 'answer_id')
-        question_id_query = ("SELECT question_id FROM answer WHERE id={};".format(answer_id))
-        question_id = function.sql_query_get(question_id_query)
+        question_id = function.select_query('question_id', 'answer', 'id', answer_id)
         return redirect("/question/{}".format(question_id[0][0]))
 
 
@@ -162,8 +161,7 @@ def add_new__answer_comment(answer_id):
 def delete_comment(comment_id):
     '''Deletes given answer, then redirects to the question's detail page'''
     question_id = request.form['questionid']
-    sql_to_delete_comment = ("DELETE FROM comment WHERE id={};".format(comment_id))
-    function.sql_query_post(str(sql_to_delete_comment))
+    function.delete_query('comment', 'id', comment_id)
     return redirect("/question/{}".format(question_id))
 
 

@@ -60,7 +60,7 @@ def search_query():
 
 
 def add_new_question():
-    """INSERT new question into question table""""
+    """INSERT new question into question table"""
     submission_time = datetime.datetime.now()
     view_number = '0'
     vote_number = '0'
@@ -81,10 +81,10 @@ def add_new_answer(question_id):
     sql_query_post(str(sql_to_insert_answer))
 
 
-def select__query(table, criteria, condition):
+def select_query(coloumn, table, criteria, condition):
     """SELECT row or rows from given table.
      Input parameters: table=given table, criteria= WHERE criteria, condition= WHERE condition"""
-    question_query = ("SELECT * FROM {} WHERE {}={};".format(table, criteria, condition))
+    question_query = ("SELECT {} FROM {} WHERE {}={};".format(coloumn, table, criteria, condition))
     return sql_query_get(question_query)
 
 
