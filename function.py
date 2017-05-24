@@ -31,7 +31,7 @@ def sql_query_get(query):
 def sql_query_post(query):
     config = get_config()
     try:
-        connect_str = "dbname='{}' user='{}' host='localhost' password='{}'".format(config[0], config[0], config[1])
+        connect_str = "dbname={} user={} host='localhost' password={}".format(config[0], config[0], config[1])
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
     except:
