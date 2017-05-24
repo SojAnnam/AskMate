@@ -79,10 +79,13 @@ def question_details(question_id):
     answer_table = function.sql_query_get(str(answer_query))
     comment_query = ("SELECT * FROM comment WHERE question_id = {};".format(question_id))
     comment_table = function.sql_query_get(str(comment_query))
+    answer_comment_query = ("SELECT comment.id,comment.question_id,comment.answer_id,comment.message,comment.submission_time,comment.edited_count FROM comment LEFT JOIN answer ON comment.answer_id=answer.id WHERE answer.question_id={};".format(question_id))
+    answer_comment_table = function.sql_query_get(str(answer_comment_query))
     return render_template("question_details.html",
                            question=question_table[0],
                            answers=answer_table,
                            comments=comment_table,
+                           answer_comment_table=answer_comment_table,
                            question_id=int(question_id))
 
 
@@ -210,6 +213,23 @@ def add_new_comment(question_id):
             question_id, comment_message, submission_time, edit_number))
         function.sql_query_post(str(sql_to_insert_comment))
         return redirect("/question/{}".format(question_id))
+
+
+@app.route('/answer/<answer_id>/new-comment', methods=['POST', 'GET'])
+def add_new__answer_comment(answer_id):
+    if request.method == 'GET':
+        return render_template("comment.html", answer_id=answer_id)
+
+    if request.method == 'POST':
+        submission_time = datetime.datetime.now()
+        edit_number = '0'
+        comment_message = request.form["newcomment"]
+        sql_to_insert_comment = ("INSERT INTO comment (answer_id,message,submission_time,edited_count) VALUES ('{}','{}','{}','{}');".format(
+            answer_id, comment_message, submission_time, edit_number))
+        function.sql_query_post(str(sql_to_insert_comment))
+        question_id_query = ("SELECT question_id FROM answer WHERE id={};".format(answer_id))
+        question_id = function.sql_query_get(question_id_query)
+        return redirect("/question/{}".format(question_id[0][0]))
 
 
 if __name__ == '__main__':

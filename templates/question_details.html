@@ -13,16 +13,16 @@
             border-collapse: collapse;
             width: 70%;
         }
-
+        
         table.details {
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 20%;
         }
-
+        
         td.answers,
         {}
-
+        
         th.answers {
             font-size: 15px;
             border: 1px solid #dddddd;
@@ -30,7 +30,7 @@
             padding: 4px;
             background-color: palegreen;
         }
-
+        
         th.details {
             font-size: 15px;
             border: 1px solid #dddddd;
@@ -38,15 +38,15 @@
             padding: 4px;
             background-color: lightsalmon;
         }
-
+        
         tr:nth-child(even) {
             background-color: #dddddd;
         }
-
+        
         h3 {
             font-size: 20px;
         }
-
+        
         h1 {
             font-size: 30px;
         }
@@ -132,11 +132,27 @@
                     </form>
                 </td>
                 <td width="5%">
+                    <form action="/answer/{{ row[0] }}/new-comment" method="GET">
+                        <input type=hidden value="{{question_id}}" name="questionid" />
+                        <input type="submit" name="newcomment" value="New comment" id="newcomment" style="font-size: 15px" />
+                    </form>
+                </td>
+                <td width="5%">
                     <form action="/answer/{{ row[0] }}/delete" method="POST">
                         <input type=hidden value="{{question_id}}" name="questionid" />
                         <input align="center" type="submit" value="Delete" />
                     </form>
                 </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <table>
+            {% for answer_comment in answer_comment_table %}
+            <tr>
+                <th class="comment" align="left">{{answer_comment[0]}}</th>
+                <th class="comment" align="left">{{answer_comment[4]}}</th>
+                <th class="comment" align="left">{{answer_comment[3]}}</th>
+                <th class="comment" align="left">{{answer_comment[5]}}</th>
             </tr>
             {% endfor %}
         </table>

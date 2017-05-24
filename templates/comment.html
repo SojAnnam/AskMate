@@ -20,11 +20,19 @@
 <body>
 
     <h2>New comment</h2>
+    {%if question_id %}
     <form action=/question/{{question_id}}/new-comment method="POST">
         <p>
             <textarea rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px"></textarea></p>
         <p><input type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px" minlength="10"></p>
     </form>
+    {%elif answer_id %}
+    <form action=/answer/{{answer_id}}/new-comment method="POST">
+        <p>
+            <textarea rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px"></textarea></p>
+        <p><input type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px" minlength="10"></p>
+    </form>
+    {% endif %}
     <button onclick="goBack()">Back</button>
 </body>
 
