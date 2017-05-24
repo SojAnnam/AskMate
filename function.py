@@ -1,7 +1,3 @@
-import csv
-import base64
-import time
-import datetime
 import psycopg2
 from flask import request
 
