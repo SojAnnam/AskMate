@@ -80,6 +80,28 @@
             <p><input type="submit" name="editquestion" value="Edit question" id="editquestion" style="font-size: 15px"></p>
         </form>
         <p>
+            <h2 style="color:salmon">Comments</h2>
+        </p>
+        <table class="comment">
+            <tr>
+                <th class="comment" align="left">ID</th>
+                <th class="comment" align="left">Submission Time</th>
+                <th class="comment" align="left">Comments</th>
+                <th class="comment" align="left">Edited Number</th>
+            </tr>
+            {% for comment in comments %}
+            <tr>
+                <th class="comment" align="left">{{comment[0]}}</th>
+                <th class="comment" align="left">{{comment[4]}}</th>
+                <th class="comment" align="left">{{comment[3]}}</th>
+                <th class="comment" align="left">{{comment[5]}}</th>
+            </tr>
+            {% endfor %}
+        </table>
+        <form action=./{{question_id}}/new-comment method="GET">
+            <p><input type="submit" name="newcomment" value="New comment" id="newcomment" style="font-size: 15px"></p>
+        </form>
+        <p>
             <h2 style="color: limegreen">Answers</h2>
         </p>
 

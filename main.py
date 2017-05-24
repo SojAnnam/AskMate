@@ -30,10 +30,12 @@ def question_details(question_id):
     question_table = function.sql_query_get(question_query)
     answer_query = ("SELECT * FROM answer WHERE question_id = {};".format(question_id))
     answer_table = function.sql_query_get(str(answer_query))
-
+    comment_query = ("SELECT * FROM comment WHERE question_id = {};".format(question_id))
+    comment_table = function.sql_query_get(str(comment_query))
     return render_template("question_details.html",
                            question=question_table[0],
                            answers=answer_table,
+                           comments=comment_table,
                            question_id=int(question_id))
 
 
@@ -146,6 +148,21 @@ def answer_vote_down(answer_id):
     question_id = request.form['questionid']
     function.vote_update_sql_query('answer', answer_id, 'down')
     return redirect("./question/{}".format(question_id))
+
+
+@app.route('/question/<question_id>/new-comment', methods=['POST', 'GET'])
+def add_new_comment(question_id):
+    if request.method == 'GET':
+        return render_template("comment.html", question_id=question_id)
+
+    if request.method == 'POST':
+        submission_time = datetime.datetime.now()
+        edit_number = '0'
+        comment_message = request.form["newcomment"]
+        sql_to_insert_comment = ("INSERT INTO comment (question_id,message,submission_time,edited_count) VALUES ('{}','{}','{}','{}');".format(
+            question_id, comment_message, submission_time, edit_number))
+        function.sql_query_post(str(sql_to_insert_comment))
+        return redirect("/question/{}".format(question_id))
 
 
 if __name__ == '__main__':
