@@ -7,7 +7,7 @@ import psycopg2
 
 def sql_query_get(query):
     try:
-        connect_str = "dbname='' user='' host='localhost' password=''"
+        connect_str = "dbname='markorkenyi' user='markorkenyi' host='localhost' password='shadow123'"
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
     except:
@@ -21,7 +21,7 @@ def sql_query_get(query):
 
 def sql_query_post(query):
     try:
-        connect_str = "dbname='potyi' user='potyi' host='localhost' password='joinme9'"
+        connect_str = "dbname='markorkenyi' user='markorkenyi' host='localhost' password='shadow123'"
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
     except:

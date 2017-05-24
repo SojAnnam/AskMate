@@ -23,6 +23,22 @@ def show_list():
     return render_template('list.html', question_table=question_table, header_row=header_row)
 
 
+@app.route("/list/latest")
+def show_list_latest():
+    '''Renders the Questions table'''
+    header_row = ["ID",
+                  "Title",
+                  "Message",
+                  "Views",
+                  "Votes",
+                  "",
+                  "Time",
+                  "Delete"
+                  ]
+    question_table = function.sql_query_get("""SELECT * FROM question LIMIT 5;""")
+    return render_template('list.html', question_table=question_table, header_row=header_row)
+
+
 @app.route("/question/<question_id>")
 def question_details(question_id):
     '''Renders question_details.html with the details of a given question'''

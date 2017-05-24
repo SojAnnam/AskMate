@@ -4,32 +4,32 @@
     img {
         vertical-align: middle;
     }
-    
+
     h1 {
         font-size: 40px;
     }
-    
+
     h2 {
         font-size: 20px;
     }
-    
+
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 80%;
     }
-    
+
     td,
     th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
     }
-    
+
     tr:nth-child(even) {
         background-color: #dddddd;
     }
-    
+
     th.list {
         font-size: 15px;
         border: 1px solid #dddddd;
@@ -77,6 +77,12 @@
         {% endfor %}
         
     </table>
+    <form action="/list/latest" method="GET">
+        <input type="submit" value="Latest Questions" />
+    </form>
+    <form action="/list" method="GET">
+        <input type="submit" value="All Questions" />
+    </form>
 
  <footer>
     <p> <font size="2"> Created by: <img src="/static/beanbaglogo.png" alt="BeanBag Team"> </font></p>
