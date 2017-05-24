@@ -232,5 +232,14 @@ def add_new__answer_comment(answer_id):
         return redirect("/question/{}".format(question_id[0][0]))
 
 
+@app.route('/comment/<comment_id>/delete', methods=['GET', 'POST'])
+def delete_comment(comment_id):
+    '''Deletes given answer, then redirects to the question's detail page'''
+    question_id = request.form['questionid']
+    sql_to_delete_comment = ("DELETE FROM comment WHERE id={};".format(comment_id))
+    function.sql_query_post(str(sql_to_delete_comment))
+    return redirect("/question/{}".format(question_id))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

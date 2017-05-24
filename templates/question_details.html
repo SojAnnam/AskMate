@@ -91,11 +91,18 @@
             </tr>
             {% for comment in comments %}
             <tr>
-                <th class="comment" align="left">{{comment[0]}}</th>
-                <th class="comment" align="left">{{comment[4]}}</th>
-                <th class="comment" align="left">{{comment[3]}}</th>
-                <th class="comment" align="left">{{comment[5]}}</th>
+                <td class="comment" align="left">{{comment[0]}}</td>
+                <td class="comment" align="left">{{comment[4]}}</td>
+                <td class="comment" align="left">{{comment[3]}}</td>
+                <td class="comment" align="left">{{comment[5]}}</td>
+                <td>
+                    <form action="/comment/{{ comment[0] }}/delete" method="POST">
+                        <input type=hidden value="{{question_id}}" name="questionid" />
+                        <input align="center" type="submit" value="Delete Comment" />
+                    </form>
+                </td>
             </tr>
+
             {% endfor %}
         </table>
         <form action=./{{question_id}}/new-comment method="GET">
@@ -144,21 +151,28 @@
                     </form>
                 </td>
             </tr>
-
-            {% for answer_comment in answer_comment_table %} {% if row[0]== answer_comment[2] %}
+            {% if answer_comment_table|count > 0 %}
             <tr class=answer_comment>
                 <th class="comment" align="left">ID</th>
                 <th class="comment" align="left">Submission Time</th>
                 <th class="comment" align="left">Comments</th>
                 <th class="comment" align="left">Edits</th>
             </tr>
+            {% for answer_comment in answer_comment_table %} {% if row[0]== answer_comment[2] %}
+
             <tr>
                 <td class="comment" align="left">{{answer_comment[0]}}</td>
                 <td class="comment" align="left">{{answer_comment[4]}}</td>
                 <td class="comment" align="left">{{answer_comment[3]}}</td>
                 <td class="comment" align="left">{{answer_comment[5]}}</td>
+                <td>
+                    <form action="/comment/{{ answer_comment[0] }}/delete" method="POST">
+                        <input type=hidden value="{{question_id}}" name="questionid" />
+                        <input align="center" type="submit" value="Delete Comments" />
+                    </form>
+                </td>
             </tr>
-            {% endif %} {% endfor %} {% endfor %}
+            {% endif %} {% endfor %} {% endif %} {% endfor %}
         </table>
         <form action=./{{question_id}}/new-answer method="GET">
             <p><input type="submit" name="newanswer" value="New answer" id="newanswer" style="font-size: 20px"></p>
