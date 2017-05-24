@@ -144,17 +144,15 @@
                     </form>
                 </td>
             </tr>
-            {% endfor %}
-        </table>
-        <table>
-            {% for answer_comment in answer_comment_table %}
+
+            {% for answer_comment in answer_comment_table %} {% if row[0]== answer_comment[2] %}
             <tr>
                 <th class="comment" align="left">{{answer_comment[0]}}</th>
                 <th class="comment" align="left">{{answer_comment[4]}}</th>
                 <th class="comment" align="left">{{answer_comment[3]}}</th>
                 <th class="comment" align="left">{{answer_comment[5]}}</th>
             </tr>
-            {% endfor %}
+            {% endif %} {% endfor %} {% endfor %}
         </table>
         <form action=./{{question_id}}/new-answer method="GET">
             <p><input type="submit" name="newanswer" value="New answer" id="newanswer" style="font-size: 20px"></p>
