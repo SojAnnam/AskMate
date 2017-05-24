@@ -20,8 +20,16 @@
             width: 20%;
         }
         
-        td.answers,
+        td.tag {
+            color:red;
+            background-color: limegreen;
+            padding: 0px 3px;
+        }
+
+        td.answers
         {}
+
+        
         
         th.answers {
             font-size: 15px;
@@ -59,6 +67,13 @@
         <p>
             <h3>{{question[5]}}</h3>
         </p>
+        <table class="tag">
+            <tr>
+                {% for tag in tag_table %}
+                <td class="tag">{{tag[0]}}</td>
+                {% endfor %}
+            </tr>
+        </table>
         <p>
             <h2 style="color:salmon">Question Details</h2>
         </p>

@@ -41,12 +41,15 @@ def question_details(question_id):
     question_comment_table = function.select_query('*', 'comment', 'question_id', question_id)
     answer_comment_query = ("SELECT comment.id,comment.question_id,comment.answer_id,comment.message,comment.submission_time,comment.edited_count FROM comment LEFT JOIN answer ON comment.answer_id=answer.id WHERE answer.question_id={};".format(question_id))
     answer_comment_table = function.sql_query_get(str(answer_comment_query))
+    tag_query = ("SELECT tag.name FROM question_tag INNER JOIN tag ON question_tag.tag_id=tag.id WHERE question_id = {};".format(question_id))
+    tag_table = function.sql_query_get(str(tag_query))
     return render_template("question_details.html",
                            question=question_table[0],
                            answers=answer_table,
                            comments=question_comment_table,
                            answer_comment_table=answer_comment_table,
-                           question_id=int(question_id))
+                           question_id=int(question_id),
+                           tag_table=tag_table)
 
 
 @app.route('/newquestion', methods=['GET', 'POST'])
