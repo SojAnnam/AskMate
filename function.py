@@ -5,9 +5,18 @@ import datetime
 import psycopg2
 
 
+def get_config():
+    with open("config.txt") as config:
+        config = config.readlines()
+    return config
+
+
 def sql_query_get(query):
+    config = get_config()
+    print(config[0])
+    print(config[1])
     try:
-        connect_str = "dbname='markorkenyi' user='markorkenyi' host='localhost' password='shadow123'"
+        connect_str = "dbname={} user={} host='localhost' password={}".format(config[0], config[0], config[1])
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
     except:
@@ -20,8 +29,9 @@ def sql_query_get(query):
 
 
 def sql_query_post(query):
+    config = get_config()
     try:
-        connect_str = "dbname='markorkenyi' user='markorkenyi' host='localhost' password='shadow123'"
+        connect_str = "dbname='{}' user='{}' host='localhost' password='{}'".format(config[0], config[0], config[1])
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
     except:
