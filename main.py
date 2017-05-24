@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 
 @app.route("/")
-@app.route("/list")
 def show_list():
     '''Renders the Questions table'''
     header_row = ["ID",
@@ -23,7 +22,7 @@ def show_list():
     return render_template('list.html', question_table=question_table)
 
 
-@app.route("/list/", methods=['GET', 'POST'])
+@app.route("/list", methods=['GET', 'POST'])
 def sort_question():
     for key in request.args:
         criteria = key
@@ -33,7 +32,29 @@ def sort_question():
     return render_template('list.html', question_table=sorted_question)
 
 
-@app.route("/list/latest")
+@app.route("/search", methods=['GET', 'POST'])
+def search_question():
+    '''Renders the Questions table'''
+    header_row = ["ID",
+                  "Title",
+                  "Message",
+                  "Views",
+                  "Votes",
+                  "",
+                  "Time",
+                  "Delete"
+                  ]
+    search_parameter = request.form['search']
+    query = """SELECT DISTINCT question.id, question.submission_time, question.view_number, question.vote_number, question.title, question.message, question.image
+    FROM question LEFT JOIN answer ON question.id=answer.question_id
+    WHERE question.title LIKE '%{}%'
+    OR question.message LIKE '%{}%'
+    OR answer.message LIKE '%{}%';""".format(search_parameter, search_parameter, search_parameter)
+    question_table = function.sql_query_get(str(query))
+    return render_template('list.html', question_table=question_table, header_row=header_row)
+
+
+@app.route("/latest")
 def show_list_latest():
     '''Renders the Questions table'''
     header_row = ["ID",
@@ -96,7 +117,7 @@ def delete_question(question_id):
         function.sql_query_post(str(sql_to_delete_answer))
         function.sql_query_post(str(sql_to_delete_comment))
         function.sql_query_post(str(sql_to_delete_question))
-        return redirect('./list')
+        return redirect('/')
 
 
 @app.route("/question/<question_id>/new-answer", methods=['POST', 'GET'])
@@ -150,14 +171,14 @@ def edit_question(question_id):
 def question_vote_up(question_id):
     '''Increases the vote count of the given question'''
     function.vote_update_sql_query('question', question_id, 'up')
-    return redirect('./list')
+    return redirect('./')
 
 
 @app.route('/question/<question_id>/vote-down', methods=['POST', 'GET'])
 def question_vote_down(question_id):
     '''Decreases the vote count of the given question'''
     function.vote_update_sql_query('question', question_id, 'down')
-    return redirect('./list')
+    return redirect('./')
 
 
 @app.route('/answer/<answer_id>/vote-up', methods=['POST', 'GET'])
