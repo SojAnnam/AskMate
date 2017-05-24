@@ -13,8 +13,6 @@ def get_config():
 
 def sql_query_get(query):
     config = get_config()
-    print(config[0])
-    print(config[1])
     try:
         connect_str = "dbname={} user={} host='localhost' password={}".format(config[0], config[0], config[1])
         conn = psycopg2.connect(connect_str)
