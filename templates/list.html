@@ -56,13 +56,19 @@
         <p></p>
         <table class="list">
             <tr>
-                <th><a href={{url_for( 'sort_question', id="asc" )}}>ID</a></th>
-                <th><a href={{url_for( 'sort_question', title="asc" )}}>Title</th>
-                <th><a href={{url_for( 'sort_question', message="asc" )}}>Message</th>
-                <th><a href={{url_for( 'sort_question', view_number="asc" )}}>View</th>
-                <th><a href={{url_for( 'sort_question', vote_number="asc" )}}>Vote</th>
+                <th><a href={{url_for( 'sort_question', id="asc" )}}>&#9650;</a>
+                    <a href={{url_for( 'sort_question', id="desc" )}}>&#9660; </a>ID</th>
+                <th><a href={{url_for( 'sort_question', title="asc" )}}>&#9650;</a><br>
+                    <a href={{url_for( 'sort_question', title="desc" )}}>&#9660; </a>Title</th>
+                <th><a href={{url_for( 'sort_question', message="asc" )}}>&#9650;</a><br>
+                    <a href={{url_for( 'sort_question', message="desc" )}}>&#9660; </a>Message</th>
+                <th><a href={{url_for( 'sort_question', view_number="asc" )}}>&#9650;</a><br>
+                    <a href={{url_for( 'sort_question', view_number="desc" )}}>&#9660; </a>View</th>
+                <th><a href={{url_for( 'sort_question', vote_number="asc" )}}>&#9650;</a><br>
+                    <a href={{url_for( 'sort_question', vote_number="desc" )}}>&#9660; </a>Vote</th>
                 <th></th>
-                <th><a href={{url_for( 'sort_question', submission_time="asc" )}}>Submission Time</th>
+                <th><a href={{url_for( 'sort_question', submission_time="asc" )}}>&#9650;</a><br>
+                    <a href={{url_for( 'sort_question', submission_time="desc" )}}>&#9660; </a>Submission Time</th>
                 <th>DELETE</th>
             </tr>
             {% for row in question_table %}
