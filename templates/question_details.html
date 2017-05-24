@@ -87,7 +87,7 @@
                 <th class="comment" align="left">ID</th>
                 <th class="comment" align="left">Submission Time</th>
                 <th class="comment" align="left">Comments</th>
-                <th class="comment" align="left">Edited Number</th>
+                <th class="comment" align="left">Edits</th>
             </tr>
             {% for comment in comments %}
             <tr>
@@ -146,11 +146,17 @@
             </tr>
 
             {% for answer_comment in answer_comment_table %} {% if row[0]== answer_comment[2] %}
+            <tr class=answer_comment>
+                <th class="comment" align="left">ID</th>
+                <th class="comment" align="left">Submission Time</th>
+                <th class="comment" align="left">Comments</th>
+                <th class="comment" align="left">Edits</th>
+            </tr>
             <tr>
-                <th class="comment" align="left">{{answer_comment[0]}}</th>
-                <th class="comment" align="left">{{answer_comment[4]}}</th>
-                <th class="comment" align="left">{{answer_comment[3]}}</th>
-                <th class="comment" align="left">{{answer_comment[5]}}</th>
+                <td class="comment" align="left">{{answer_comment[0]}}</td>
+                <td class="comment" align="left">{{answer_comment[4]}}</td>
+                <td class="comment" align="left">{{answer_comment[3]}}</td>
+                <td class="comment" align="left">{{answer_comment[5]}}</td>
             </tr>
             {% endif %} {% endfor %} {% endfor %}
         </table>
