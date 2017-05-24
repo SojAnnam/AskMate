@@ -20,7 +20,17 @@ def show_list():
                   "Delete"
                   ]
     question_table = function.sql_query_get("""SELECT * FROM question;""")
-    return render_template('list.html', question_table=question_table, header_row=header_row)
+    return render_template('list.html', question_table=question_table)
+
+
+@app.route("/list/", methods=['GET', 'POST'])
+def sort_question():
+    for key in request.args:
+        criteria = key
+        order = request.args.get(key)
+    query = "SELECT * FROM question ORDER BY {} {};".format(criteria, order)
+    sorted_question = function.sql_query_get(query)
+    return render_template('list.html', question_table=sorted_question)
 
 
 @app.route("/list/latest")

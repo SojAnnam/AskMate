@@ -4,32 +4,32 @@
     img {
         vertical-align: middle;
     }
-
+    
     h1 {
         font-size: 40px;
     }
-
+    
     h2 {
         font-size: 20px;
     }
-
+    
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 80%;
     }
-
+    
     td,
     th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
     }
-
+    
     tr:nth-child(even) {
         background-color: #dddddd;
     }
-
+    
     th.list {
         font-size: 15px;
         border: 1px solid #dddddd;
@@ -53,9 +53,14 @@
         <p></p>
         <table class="list">
             <tr>
-                {% for cell in header_row %}
-                <th class="list">{{ cell }}</th>
-                {% endfor %}
+                <th><a href={{url_for( 'sort_question', id="asc" )}}>ID</a></th>
+                <th><a href={{url_for( 'sort_question', title="asc" )}}>Title</th>
+                <th><a href={{url_for( 'sort_question', message="asc" )}}>Message</th>
+                <th><a href={{url_for( 'sort_question', view_number="asc" )}}>View</th>
+                <th><a href={{url_for( 'sort_question', vote_number="asc" )}}>Vote</th>
+                <th></th>
+                <th><a href={{url_for( 'sort_question', submission_time="asc" )}}>Submission Time</th>
+                <th>DELETE</th>
             </tr>
             {% for row in question_table %}
             <tr>
