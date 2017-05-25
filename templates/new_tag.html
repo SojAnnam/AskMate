@@ -1,6 +1,10 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="{{ url_for ( 'static', filename='question.css' ) }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
+    </style>
     <script>
         function goBack() {
             window.history.back()
@@ -8,19 +12,12 @@
     </script>
 
     <title>New Tag</title>
-    <style>
-        h2 {
-            font-family: arial, sans-serif;
-            color: limegreen;
-            font-size: 40px;
-        }
-    </style>
 </head>
 
 <body>
     <form action='/question/{{question_id}}/add-new-tag' method="POST">
-        <input type=text name=tag-text id=tag-submit-text></input>
-        <input type=submit name=tag-submit value='Submit tag' id=tag-submit-button></input>
+        <input class=title type=text name=tag-text id=tag-submit-text placeholder="Add new tag..."></input>
+        <input class=add-button type=submit name=tag-submit value='Submit tag' id=tag-submit-button></input>
     </form>
     <h2>Existing tags</h2>
     {% for tag in existing_tags %}<a href='./submit-new-tag/{{tag[0]}}'>{{tag[0]}}
