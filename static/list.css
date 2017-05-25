@@ -24,6 +24,7 @@ input.ask-button {
 	color:lightsalmon;
 	font-size:30px;
 	background-color: black;}
+
 input.search-input {
 	font-family: 'Special Elite', cursive;
 	background-color:lightcyan;
@@ -61,7 +62,9 @@ th{ border-bottom: 4px solid black;
 	font-size:20px;
 	vertical-align: bottom;
 	}
-tr:hover {background-color:rgba(204,255,204,0.6) }
+tr:hover {
+	background-color:rgba(204,255,204,0.6);
+ }
 
 td { 
 	border-bottom: 3px dashed #424242;
@@ -69,4 +72,12 @@ td {
 	border-left: 1px solid #0003;
 	text-align: center;
 	}
+td:hover{
+	font-size:20px
 
+}
+input.ask-button:hover, input.latest:hover, input.all:hover{
+	color:black;
+	font-size:35px;
+	background-color:greenyellow}
+}
