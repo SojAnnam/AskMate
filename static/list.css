@@ -54,13 +54,20 @@ table {
 table a{color:black;
 	text-decoration: none;
 	display:block
+	border: 20px red;
 	}
 th{ border-bottom: 4px solid black;
 	font-family:barrio, cursive;
 	font-size:20px;
+	vertical-align: bottom;
 	}
 tr:hover {background-color:rgba(204,255,204,0.6) }
 
 td { 
-	border-bottom: 1px solid black;
-font-size:15px}
+	border-bottom: 3px dashed #424242;
+	font-size: 15px;
+	border-left: 1px solid #0003;
+	text-align: center;
+	}
+#list-title-column {text-align:left;}
+#list-message-column{text-align: left;}
