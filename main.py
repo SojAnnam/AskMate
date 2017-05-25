@@ -15,6 +15,7 @@ def show_list():
 
 @app.route("/list", methods=['GET', 'POST'])
 def sort_question():
+    '''Sorts questions list'''
     sorted_by_criteria = function.sort_query()
     return render_template('list.html', question_table=sorted_by_criteria)
 
@@ -54,7 +55,7 @@ def question_details(question_id):
 
 @app.route('/newquestion', methods=['GET', 'POST'])
 def new_question():
-    '''Renders question.html to get a new question, then writes that out to the csv file
+    '''Renders question.html to get a new question,  then inserts it into the database
     \nRedirects to the questions list page'''
     if request.method == 'GET':
         return render_template("question.html")
@@ -66,7 +67,7 @@ def new_question():
 
 @app.route('/question/<question_id>/delete', methods=['GET', 'POST'])
 def delete_question(question_id):
-    '''Deletes a given question, then redirects to "./list"'''
+    '''Deletes a given question, then redirects to main page'''
     if request.method == 'POST':
         function.delete_query('question_tag', 'question_id', question_id)
         function.delete_query('answer', 'question_id', question_id)
@@ -77,7 +78,7 @@ def delete_question(question_id):
 
 @app.route("/question/<question_id>/new-answer", methods=['POST', 'GET'])
 def new_answer(question_id):
-    '''Renders answer.html to get a new answer, then writes that out to a csv file
+    '''Renders answer.html to get a new answer, then inserts it into the database
     \nRedirects to the given question's detail page'''
     if request.method == 'GET':
         return render_template("answer.html", question_id=question_id)
@@ -141,6 +142,7 @@ def answer_vote_down(answer_id):
 
 @app.route('/question/<question_id>/new-comment', methods=['POST', 'GET'])
 def add_new_question_comment(question_id):
+    '''adds new comment to given question'''
     if request.method == 'GET':
         return render_template("comment.html", question_id=question_id)
 
@@ -151,6 +153,7 @@ def add_new_question_comment(question_id):
 
 @app.route('/answer/<answer_id>/new-comment', methods=['POST', 'GET'])
 def add_new__answer_comment(answer_id):
+    '''adds new comment to given answer'''
     if request.method == 'GET':
         return render_template("comment.html", answer_id=answer_id)
 
@@ -162,7 +165,7 @@ def add_new__answer_comment(answer_id):
 
 @app.route('/comment/<comment_id>/delete', methods=['GET', 'POST'])
 def delete_comment(comment_id):
-    '''Deletes given answer, then redirects to the question's detail page'''
+    '''Deletes given comment, then redirects to the question's detail page'''
     question_id = request.form['questionid']
     function.delete_query('comment', 'id', comment_id)
     return redirect("/question/{}".format(question_id))
@@ -170,13 +173,14 @@ def delete_comment(comment_id):
 
 @app.route('/question/<question_id>/new-tag', methods=['GET'])
 def new_tag(question_id):
+    '''renders new_tag.html to add or select a new tag for the question'''
     existing_tags = function.sql_query_get("SELECT name FROM tag;")
-    print(existing_tags)
     return render_template("new_tag.html", existing_tags=existing_tags, question_id=question_id)
 
 
 @app.route('/question/<question_id>/add-new-tag', methods=['GET', 'POST'])
 def add_new_tag(question_id):
+    '''Adds new tag to the question'''
     tag_to_add = request.form['tag-text']
     tag_insert_query = """INSERT INTO tag (name) VALUES ('{}');""".format(tag_to_add)
     function.sql_query_post(tag_insert_query)
@@ -192,6 +196,7 @@ def add_new_tag(question_id):
 
 @app.route('/question/<question_id>/submit-new-tag/<tag_name>', methods=['GET', 'POST'])
 def submit_new_tag(question_id, tag_name):
+    '''Adds a new tag to the given question'''
     tag_id = function.select_query("id", "tag", "name", tag_name)
     question_tag_insert_query = """INSERT INTO question_tag (question_id,tag_id) VALUES ('{}','{}');""".format(
         question_id, tag_id[0][0])
