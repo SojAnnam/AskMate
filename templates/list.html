@@ -1,45 +1,12 @@
 <!DOCTYPE html>
 <html>
-<style>
-    img {
-        vertical-align: middle;
-    }
-    
-    h1 {
-        font-size: 40px;
-    }
-    
-    h2 {
-        font-size: 20px;
-    }
-    
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 80%;
-    }
-    
-    td,
-    th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-    
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-    
-    th.list {
-        font-size: 15px;
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 4px;
-        background-color: palegreen;
-    }
-</style>
 
 <head>
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> -->
+    <link rel="stylesheet" href="{{ url_for ( 'static', filename='list.css' ) }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
+    </style>
     <title>Questions List</title>
 </head>
 
@@ -54,7 +21,7 @@
             <input type=text name=search></input>
         </form>
         <p></p>
-        <table class="list">
+        <table>
             <tr>
                 <th><a href={{url_for( 'sort_question', id="asc" )}}>&#9650;</a>
                     <a href={{url_for( 'sort_question', id="desc" )}}>&#9660; </a>ID</th>
