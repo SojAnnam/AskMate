@@ -1,0 +1,52 @@
+html{
+	zoom:100%;
+	}
+body { 
+	background-color:lightgray ;
+	background-image: url(/static/robi4.png);
+	background-repeat: no-repeat;
+	background-position: right;
+	background-attachment: fixed;
+	font-family: 'Special Elite', cursive;
+	font-size:20px;
+	line-height: 1.88889;
+	color: black;
+	}
+h2{
+	font-family: barrio,cursive;
+	color:black;
+	font-size:50px;
+	margin:20px;
+	letter-spacing: 0.05em;
+	}
+h3{
+	font-size:30px
+}
+textarea,input.title{
+	font-size:25px;
+	font-family: 'Special Elite',cursive;
+}
+input.add-button{
+	font-family: barrio,cursive;
+	color:greenyellow;
+	font-size:50px;
+	background-color: black;
+	}
+input.add-button:hover{
+	font-family: barrio,cursive;
+	color:black;
+	font-size:50px;
+	background-color:greenyellow;
+	}
+input.edit-button{
+	font-family: barrio,cursive;
+	color:lightsalmon;
+	font-size:50px;
+	background-color: black;
+	}
+input.edit-button:hover{
+	font-family: barrio,cursive;
+	color:black;
+	font-size:50px;
+	background-color:lightsalmon;
+	}
