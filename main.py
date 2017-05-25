@@ -44,6 +44,7 @@ def question_details(question_id):
     answer_comment_table = function.sql_query_get(str(answer_comment_query))
     tag_query = ("SELECT  question_tag.question_id, tag.id, tag.name FROM question_tag INNER JOIN tag ON question_tag.tag_id=tag.id WHERE question_id = {};".format(question_id))
     tag_table = function.sql_query_get(str(tag_query))
+    function.update_view_count_query(question_id)
     return render_template("question_details.html",
                            question=question_table[0],
                            answers=answer_table,

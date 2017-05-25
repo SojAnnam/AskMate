@@ -126,3 +126,12 @@ def vote_update_sql_query(table, _id, direction):
     sql_to_edit_vote = ("UPDATE {} SET vote_number= {} WHERE id= {};".format(
         table, votes, _id))
     sql_query_post(str(sql_to_edit_vote))
+
+
+def update_view_count_query(question_id):
+    '''Increases the question's view counter by 1'''
+    view_count = select_query("view_number", "question", "id", question_id)
+    new_view_count = int(view_count[0][0]) + 1
+    print(view_count)
+    view_update_query = """UPDATE question SET view_number={} WHERE id={};""".format(new_view_count, question_id)
+    sql_query_post(view_update_query)
