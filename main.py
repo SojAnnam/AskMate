@@ -98,7 +98,7 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/edit", methods=['POST', 'GET'])
 def edit_question(question_id):
-    '''Renders question.html to edit a given question, then updates the question in the csv file
+    '''Renders question.html to edit a given question, then updates the question in the database file
     \n Redirects to the question's detail page'''
     if request.method == 'GET':
         edit_question_row = function.select_query('*', 'question', 'id', question_id)
@@ -166,6 +166,13 @@ def delete_comment(comment_id):
     question_id = request.form['questionid']
     function.delete_query('comment', 'id', comment_id)
     return redirect("/question/{}".format(question_id))
+
+
+@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
+def new_tag(question_id):
+    # question_table = function.sql_query_get("""SELECT * FROM question;""")
+    existing_tags = function.sql_query_get("SELECT name FROM tag;")
+    return render_template("new_tag.html", existing_tags=existing_tags)
 
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete', methods=['GET', 'POST'])
