@@ -31,7 +31,8 @@
                     <a href={{url_for( 'sort_question', title="desc" )}}>&#9660; </a>Title</th>
                 <th><a href={{url_for( 'sort_question', message="asc" )}}>&#9650;</a>
                     <a href={{url_for( 'sort_question', message="desc" )}}>&#9660; </a>Message</th>
-                <th><a id=view_header>View</a></th>
+                <th><a href={{url_for( 'sort_question', view="asc" )}}>&#9650;</a>
+                    <a href={{url_for( 'sort_question', view="desc" )}}>&#9660; </a>View</th>
                 <th><a href={{url_for( 'sort_question', vote_number="asc" )}}>&#9650;</a>
                     <a href={{url_for( 'sort_question', vote_number="desc" )}}>&#9660; </a>Vote</th>
                 <th></th>
