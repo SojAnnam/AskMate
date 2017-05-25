@@ -70,7 +70,14 @@
         <table class="tag">
             <tr>
                 {% for tag in tag_table %}
-                <td class="tag">{{tag[0]}}</td>
+                <td class="tag">
+                    {{tag[2]}}
+                </td>
+                <td class="tag">
+                    <form action="/question/{{ tag[0] }}/tag/{{ tag[1] }}/delete" method="POST">
+                        <input type="submit" value="X" align="center"/>
+                    </form>
+                </td>
                 {% endfor %}
             </tr>
         </table>

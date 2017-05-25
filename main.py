@@ -41,7 +41,7 @@ def question_details(question_id):
     question_comment_table = function.select_query('*', 'comment', 'question_id', question_id)
     answer_comment_query = ("SELECT comment.id,comment.question_id,comment.answer_id,comment.message,comment.submission_time,comment.edited_count FROM comment LEFT JOIN answer ON comment.answer_id=answer.id WHERE answer.question_id={};".format(question_id))
     answer_comment_table = function.sql_query_get(str(answer_comment_query))
-    tag_query = ("SELECT tag.name FROM question_tag INNER JOIN tag ON question_tag.tag_id=tag.id WHERE question_id = {};".format(question_id))
+    tag_query = ("SELECT  question_tag.question_id, tag.id, tag.name FROM question_tag INNER JOIN tag ON question_tag.tag_id=tag.id WHERE question_id = {};".format(question_id))
     tag_table = function.sql_query_get(str(tag_query))
     return render_template("question_details.html",
                            question=question_table[0],
@@ -165,6 +165,14 @@ def delete_comment(comment_id):
     '''Deletes given answer, then redirects to the question's detail page'''
     question_id = request.form['questionid']
     function.delete_query('comment', 'id', comment_id)
+    return redirect("/question/{}".format(question_id))
+
+
+@app.route('/question/<question_id>/tag/<tag_id>/delete', methods=['GET', 'POST'])
+def delete_tag(question_id, tag_id):
+    '''Deletes given tags, then redirects to the question's detail page'''
+    sql_to_delete = ("DELETE FROM  question_tag WHERE tag_id={} AND question_id={};".format(tag_id, question_id))
+    function.sql_query_post(str(sql_to_delete))
     return redirect("/question/{}".format(question_id))
 
 
