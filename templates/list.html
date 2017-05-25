@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <!--<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> -->
+
     <link rel="stylesheet" href="{{ url_for ( 'static', filename='list.css' ) }}">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
@@ -12,57 +12,59 @@
 
 <body>
     <center>
-        <h1>AskMate</h1>
-        <form action="./newquestion" method="GET">
-            <input type="submit" value="Ask New Question" style="font-size: 30px" />
+        <p>
+            <h1>AskMate</h1>
+        </p>
+        <form class=new_question action="./newquestion" method="GET">
+            <input class=ask-button type="submit" value="Ask New Question" style="font-size: 30px" />
         </form>
         <h2>List of Questions</h2>
         <form action={{url_for( 'search_function' )}} method='POST'>
-            <input type=text name=search></input>
+            <input class=search-input type=text placeholder="Search..." name=search></input>
         </form>
         <p></p>
         <table>
-            <tr>
+            <tr class=header>
                 <th><a href={{url_for( 'sort_question', id="asc" )}}>&#9650;</a>
                     <a href={{url_for( 'sort_question', id="desc" )}}>&#9660; </a>ID</th>
-                <th><a href={{url_for( 'sort_question', title="asc" )}}>&#9650;</a><br>
+                <th><a href={{url_for( 'sort_question', title="asc" )}}>&#9650;</a>
                     <a href={{url_for( 'sort_question', title="desc" )}}>&#9660; </a>Title</th>
-                <th><a href={{url_for( 'sort_question', message="asc" )}}>&#9650;</a><br>
+                <th><a href={{url_for( 'sort_question', message="asc" )}}>&#9650;</a>
                     <a href={{url_for( 'sort_question', message="desc" )}}>&#9660; </a>Message</th>
-                <th><a href={{url_for( 'sort_question', view_number="asc" )}}>&#9650;</a><br>
+                <th><a href={{url_for( 'sort_question', view_number="asc" )}}>&#9650;</a>
                     <a href={{url_for( 'sort_question', view_number="desc" )}}>&#9660; </a>View</th>
-                <th><a href={{url_for( 'sort_question', vote_number="asc" )}}>&#9650;</a><br>
+                <th><a href={{url_for( 'sort_question', vote_number="asc" )}}>&#9650;</a>
                     <a href={{url_for( 'sort_question', vote_number="desc" )}}>&#9660; </a>Vote</th>
                 <th></th>
-                <th><a href={{url_for( 'sort_question', submission_time="asc" )}}>&#9650;</a><br>
+                <th><a href={{url_for( 'sort_question', submission_time="asc" )}}>&#9650;</a>
                     <a href={{url_for( 'sort_question', submission_time="desc" )}}>&#9660; </a>Submission Time</th>
                 <th>DELETE</th>
             </tr>
             {% for row in question_table %}
-            <tr>
+            <tr class=question-details>
                 <td>{{ row[0] }}</td>
                 <td><a href="./question/{{row[0]}}">{{ row[4] }}</td>
-        <td>{{ row[5] }}</td>
-        <td width:"300px">{{ row[2] }}</td>
-        <td>{{ row[3] }}</td>
-        <td><a href='./question/{{row[0]}}/vote-up'> &#9650;<br>
-        <a href='./question/{{row[0]}}/vote-down'>&#9660; </td>
-        <td>{{ row[1] }}</td>
-        <td>
-            <form action="./question/{{ row[0] }}/delete" method="POST">
-                <input type="submit" value="Delete" />
-            </form>
-        </td>
-        </tr>
+                <td>{{ row[5] }}</td>
+                <td width:"300px">{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td><a href='./question/{{row[0]}}/vote-up'> &#9650;<br>
+                <a href='./question/{{row[0]}}/vote-down'>&#9660; </td>
+                <td>{{ row[1] }}</td>
+                <td>
+                    <form action="./question/{{ row[0] }}/delete" method="POST">
+                        <input class=delete-button type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
          
         {% endfor %}
         
     </table>
     <form action="/latest" method="GET">
-        <input type="submit" value="Latest Questions" />
+        <input class=latest type="submit" value="Latest Questions" />
     </form>
     <form action="/" method="GET">
-        <input type="submit" value="All Questions" />
+        <input class=all type="submit" value="All Questions" />
     </form>
 
  <footer>

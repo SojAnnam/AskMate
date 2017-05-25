@@ -1,12 +1,66 @@
-
 html{
-    margin:0;
-    padding:0
-    }
+	zoom:100%;
+	}
 body { 
-	background-color:gray ;
+	background-color:lightgray ;
+	background-image: url(/static/robi4.png);
+	background-repeat: no-repeat;
+	background-position: right;
+	background-attachment: fixed;
 	font-family: 'Special Elite', cursive;
 	font-size:20px;
 	line-height: 1.88889;
 	color: black;
 	}
+h1{ text-align: center;
+	font-family: barrio,cursive;
+	color:black;
+	font-size:50px;
+	margin:20px;
+	letter-spacing: 0.05em;
+	}
+input.ask-button {
+	font-family: barrio,cursive;
+	color:lightsalmon;
+	font-size:30px;
+	background-color: black;}
+input.search-input {
+	font-family: 'Special Elite', cursive;
+	background-color:lightcyan;
+	font-size:20px;
+	}
+input.latest {
+	font-family: barrio,cursive;
+	color:yellowgreen;
+	font-size:30px;
+	background-color: black;
+	}
+input.all {
+	font-family: barrio,cursive;
+	color:yellow;
+	font-size:30px;
+	background-color: black;
+	}
+input.delete-button {
+	font-family: 'Special Elite', cursive;
+	color:orangered;
+	font-size:20px;
+	background-color: black;
+	}
+table {
+	background-color: rgba(217,217,242,0.6) ;
+	width: 1500px;
+	}
+table a{color:black;
+	text-decoration: none;
+	display:block
+	}
+th{ border-bottom: 4px solid black;
+	font-family:barrio, cursive;
+	font-size:20px;
+	}
+tr:hover {background-color:rgba(204,255,204,0.6) }
+
+td { 
+	border-bottom: 1px solid black;
+font-size:15px}
