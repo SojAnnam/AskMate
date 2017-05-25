@@ -20,7 +20,7 @@
     {%if question_id %}
     <form action=/question/{{question_id}}/new-comment method="POST">
         <p>
-            <textarea class=new-commment rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px"></textarea></p>
+            <textarea class=new-commment rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px" placeholder="Add new comment..."></textarea></p>
         <p>
             <input class=question-comment type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px"
                 minlength="10"></p>
@@ -28,7 +28,7 @@
     {%elif answer_id %}
     <form action=/answer/{{answer_id}}/new-comment method="POST">
         <p>
-            <textarea class=new-comment rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px"></textarea></p>
+            <textarea class=new-comment rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px" placeholder="Add new comment..."></textarea></p>
         <p>
             <input class=answer-comment type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px"
                 minlength="10"></p>
