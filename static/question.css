@@ -22,29 +22,29 @@ h2{
 h3{
 	font-size:30px
 }
-textarea,input.title{
+textarea,input.title,.new-commit{
 	font-size:25px;
 	font-family: 'Special Elite',cursive;
 }
-input.add-button{
+input.add-button,input.answer,input.answer-comment{
 	font-family: barrio,cursive;
 	color:greenyellow;
 	font-size:50px;
 	background-color: black;
 	}
-input.add-button:hover{
+input.add-button:hover, input.answer:hover,input.answer-comment:hover{
 	font-family: barrio,cursive;
 	color:black;
 	font-size:50px;
 	background-color:greenyellow;
 	}
-input.edit-button{
+input.edit-button,input.question-comment{
 	font-family: barrio,cursive;
 	color:lightsalmon;
 	font-size:50px;
 	background-color: black;
 	}
-input.edit-button:hover{
+input.edit-button:hover, input.question-comment:hover{
 	font-family: barrio,cursive;
 	color:black;
 	font-size:50px;

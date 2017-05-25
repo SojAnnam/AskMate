@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="{{ url_for ( 'static', filename='submit.css' ) }}">
+    <link rel="stylesheet" href="{{ url_for ( 'static', filename='question.css' ) }}">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
     </style>
@@ -20,14 +20,18 @@
     {%if question_id %}
     <form action=/question/{{question_id}}/new-comment method="POST">
         <p>
-            <textarea rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px"></textarea></p>
-        <p><input type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px" minlength="10"></p>
+            <textarea class=new-commment rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px"></textarea></p>
+        <p>
+            <input class=question-comment type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px"
+                minlength="10"></p>
     </form>
     {%elif answer_id %}
     <form action=/answer/{{answer_id}}/new-comment method="POST">
         <p>
-            <textarea rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px"></textarea></p>
-        <p><input type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px" minlength="10"></p>
+            <textarea class=new-comment rows="5" cols="50" name="newcomment" id="newcomment" style="font-size: 20px"></textarea></p>
+        <p>
+            <input class=answer-comment type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px"
+                minlength="10"></p>
     </form>
     {% endif %}
     <button onclick="goBack()">Back</button>

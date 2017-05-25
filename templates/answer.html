@@ -1,6 +1,10 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="{{ url_for ( 'static', filename='question.css' ) }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
+    </style>
     <script>
         function goBack() {
             window.history.back()
@@ -8,13 +12,6 @@
     </script>
 
     <title>New answer</title>
-    <style>
-        h2 {
-            font-family: arial, sans-serif;
-            color: limegreen;
-            font-size: 40px;
-        }
-    </style>
 </head>
 
 <body>
@@ -23,7 +20,8 @@
     <form action=/question/{{question_id}}/new-answer method="POST">
         <p>
             <textarea rows="5" cols="50" name="newanswer" id="newanswer" style="font-size: 20px"></textarea></p>
-        <p><input type=submit name=answer_submit value=" Add answer " id=add_answer_button style="font-size: 20px" minlength="10"></p>
+        <p>
+            <input class=answer type=submit name=answer_submit value=" Add answer " id=add_answer_button style="font-size: 20px" minlength="10"></p>
     </form>
     <button onclick="goBack()">Back</button>
 </body>
