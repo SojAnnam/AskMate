@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route("/")
 def show_list():
     '''Renders the Questions table'''
-    question_table = function.sql_query_get("""SELECT * FROM question;""")
+    question_table = function.sql_query_get("""SELECT * FROM question ORDER BY id;""")
     return render_template('list.html', question_table=question_table)
 
 
