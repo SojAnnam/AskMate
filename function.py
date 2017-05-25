@@ -78,10 +78,10 @@ def add_new_answer(question_id):
     sql_query_post(str(sql_to_insert_answer))
 
 
-def select_query(coloumn, table, criteria, condition):
+def select_query(column, table, criteria, condition):
     """SELECT row or rows from given table.
      Input parameters: table=given table, criteria= WHERE criteria, condition= WHERE condition"""
-    question_query = ("SELECT {} FROM {} WHERE {}={};".format(coloumn, table, criteria, condition))
+    question_query = ("SELECT {} FROM {} WHERE {}='{}';".format(column, table, criteria, condition))
     return sql_query_get(question_query)
 
 

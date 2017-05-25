@@ -18,10 +18,13 @@
 </head>
 
 <body>
+    <form action='/question/{{question_id}}/add-new-tag' method="POST">
+        <input type=text name=tag-text id=tag-submit-text></input>
+        <input type=submit name=tag-submit value='Submit tag' id=tag-submit-button></input>
+    </form>
     <h2>Existing tags</h2>
-    {% for tag in existing_tags %}
-        {{tag[0]}}<br>
-    {% endfor %}
+    {% for tag in existing_tags %}<a href='./submit-new-tag/{{tag[0]}}'>{{tag[0]}}
+    <br> {% endfor %}
     <br>
     <button onclick="goBack()">Back</button>
 </body>

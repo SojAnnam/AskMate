@@ -168,11 +168,38 @@ def delete_comment(comment_id):
     return redirect("/question/{}".format(question_id))
 
 
-@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
+@app.route('/question/<question_id>/new-tag', methods=['GET'])
 def new_tag(question_id):
-    # question_table = function.sql_query_get("""SELECT * FROM question;""")
     existing_tags = function.sql_query_get("SELECT name FROM tag;")
-    return render_template("new_tag.html", existing_tags=existing_tags)
+    print(existing_tags)
+    return render_template("new_tag.html", existing_tags=existing_tags, question_id=question_id)
+
+
+@app.route('/question/<question_id>/add-new-tag', methods=['GET', 'POST'])
+def add_new_tag(question_id):
+    tag_to_add = request.form['tag-text']
+    tag_insert_query = """INSERT INTO tag (name) VALUES ('{}');""".format(tag_to_add)
+    function.sql_query_post(tag_insert_query)
+    tag_id = function.select_query("id", "tag", "name", tag_to_add)
+    question_tag_insert_query = """INSERT INTO question_tag (question_id,tag_id) VALUES ('{}','{}');""".format(
+        question_id, int(tag_id[0][0]))
+    try:
+        function.sql_query_post(question_tag_insert_query)
+    except:
+        return redirect('/question/{}'.format(question_id))
+    return redirect('/question/{}'.format(question_id))
+
+
+@app.route('/question/<question_id>/submit-new-tag/<tag_name>', methods=['GET', 'POST'])
+def submit_new_tag(question_id, tag_name):
+    tag_id = function.select_query("id", "tag", "name", tag_name)
+    question_tag_insert_query = """INSERT INTO question_tag (question_id,tag_id) VALUES ('{}','{}');""".format(
+        question_id, tag_id[0][0])
+    try:
+        function.sql_query_post(question_tag_insert_query)
+    except:
+        return redirect('/question/{}'.format(question_id))
+    return redirect('/question/{}'.format(question_id))
 
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete', methods=['GET', 'POST'])
