@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route("/")
 def show_list():
     '''Renders the Questions table'''
-    question_table = function.sql_query_get("""SELECT * FROM question ORDER BY id;""")
+    question_table = function.sql_query_get("""SELECT * FROM question ORDER BY id LIMIT 5;""")
     return render_template('list.html', question_table=question_table)
 
 
@@ -27,10 +27,10 @@ def search_function():
     return render_template('list.html', question_table=question_table)
 
 
-@app.route("/latest")
+@app.route("/all")
 def show_list_latest():
     '''Renders the Questions table'''
-    question_table = function.sql_query_get("""SELECT * FROM question LIMIT 5;""")
+    question_table = function.sql_query_get("""SELECT * FROM question;""")
     return render_template('list.html', question_table=question_table)
 
 
