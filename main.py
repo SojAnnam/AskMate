@@ -70,6 +70,9 @@ def delete_question(question_id):
     '''Deletes a given question, then redirects to main page'''
     if request.method == 'POST':
         function.delete_query('question_tag', 'question_id', question_id)
+        answer_comment_delete = (
+            "DELETE FROM comment WHERE answer_id IN(SELECT answer_id FROM answer WHERE question_id={});".format(question_id))
+        function.sql_query_post(str(answer_comment_delete))
         function.delete_query('answer', 'question_id', question_id)
         function.delete_query('comment', 'question_id', question_id)
         function.delete_query('question', 'id', question_id)
