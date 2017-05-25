@@ -1,0 +1,96 @@
+html{
+	zoom:100%;
+	}
+body { 
+	background-color:lightgray ;
+	background-image: url(/static/robi4.png);
+	background-repeat: no-repeat;
+	background-position: right;
+	background-attachment: fixed;
+	font-family: 'Special Elite', cursive;
+	font-size:20px;
+	line-height: 1.88889;
+	color: black;
+	}
+table {
+	background-color: rgba(217,217,242,0.6) ;
+	width: 1500px;
+	}
+table a{color:black;
+	text-decoration: none;
+	display:block
+	}
+th{ border-bottom: 4px solid black;
+	font-family:barrio, cursive;
+	font-size:20px;
+	}
+tr:hover {background-color:rgba(204,255,204,0.6) }
+
+td { 
+	border-bottom: 1px solid black;
+font-size:15px}
+ul {
+    display:inline-flex;
+}
+li{
+    background-color: rgba(204,102,104,0.7);
+    font-weight:bold;
+    color:black;
+    list-style: none;
+    margin: 5px;
+    padding:0;
+}
+input.tag{
+    background:black;
+    color: lightcoral;
+    font-weight: bold;
+    font-family: 'Graduate';
+    display:inline-block;
+}
+input.tag:hover{
+    background:lightcoral;
+    color: black;
+}
+input.new-tag,input.new-comment,input.new-answer {
+    font-family: barrio,cursive;
+	color:yellowgreen;
+	font-size:20px;
+	background-color: black;
+    }
+input.new-tag:hover,input.new-comment:hover,input.new-answer:hover{
+    background-color: greenyellow;
+    color: black;
+}
+h2.question, h2.answer{
+    font-size:30px;
+    color: black;
+}
+h2.comment{
+    font-size:20px;
+    color: salmon;
+}
+
+input.edit-question{
+    font-family: barrio,cursive;
+	color:lightsalmon;
+	font-size:20px;
+	background-color: black;
+}
+input.edit-question:hover{
+    background-color: greenyellow;
+    color: black;
+}
+input.delete {
+	font-family: 'Special Elite', cursive;
+	color:orangered;
+	font-size:20px;
+	background-color: black;
+	}
+input.new-comm{
+    font-family: 'Special Elite', cursive;
+	color:black;
+	font-size:20px;
+	background-color: greenyellow;
+	}
+
+}
