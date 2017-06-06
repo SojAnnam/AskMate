@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        User
+        </title>
+    </head>
+    <body>
+        <table id="queryresult">
+            <tr id="header">
+                {% for data in query_result[0] %}
+                <th>{{ data }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in query_result[1:] %}
+            <tr id="row">
+                {% for data in row %}
+                    {% if data != None %}
+                        <td>
+                            {{ data }}
+                        </td>
+                    {% else %}
+                        <td style="color:red">
+                            {{ data }}
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
