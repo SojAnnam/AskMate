@@ -1,0 +1,17 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for ( 'static', filename='question.css' ) }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
+    </style>
+    <title>Registration</title>
+</head>
+
+<body>
+    <form action='/registration/register-user' method="POST">
+        <input class=title type=text name=username id=username placeholder="Enter username"></input>
+        <input class=add-button type=submit name=user-submit value='Register' id=user-register-button></input>
+    </form>
+    <p><a href="/">Back to Home</a></p>
+</body>
