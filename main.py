@@ -37,8 +37,10 @@ def show_list_latest():
 @app.route("/question/<question_id>")
 def question_details(question_id):
     '''Renders question_details.html with the details of a given question'''
-    question_table = function.select_query('*', 'question', 'id', question_id)
-    answer_table = function.select_query('*', 'answer', 'question_id', question_id)
+    question_query = ("SELECT question.id, question.submission_time,question.view_number,question.vote_number,users.username FROM question LEFT JOIN users ON question.user_id=users.id WHERE question.id = {};".format(question_id))
+    question_table = function.sql_query_get(str(question_query))
+    answer_query = ("SELECT answer.id, answer.submission_time,answer.vote_number,answer.message,users.username FROM answer LEFT JOIN users ON answer.user_id=users.id WHERE answer.question_id = {};".format(question_id))
+    answer_table = function.sql_query_get(str(answer_query))
     question_comment_table = function.select_query('*', 'comment', 'question_id', question_id)
     answer_comment_query = ("SELECT comment.id,comment.question_id,comment.answer_id,comment.message,comment.submission_time,comment.edited_count FROM comment LEFT JOIN answer ON comment.answer_id=answer.id WHERE answer.question_id={};".format(question_id))
     answer_comment_table = function.sql_query_get(str(answer_comment_query))
