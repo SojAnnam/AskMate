@@ -36,9 +36,9 @@
             <input class=title type="text" size="30" name="title" id="title" value='{{title}}' placeholder="Add a title...">
             <p><label for="story">New Question</label><br>
                 <textarea name="message" id="message" rows="5" cols="40" placeholder="Add new question..." minlength="10">{{message}}</textarea></p>
-            <select>
+            <select name="user">
                 {% for user in user_list %}
-                <option name=user value={{user[0]}}> {{user[1]}}</option>
+                <option value={{user[0]}}> {{user[1]}}</option>
                 {% endfor %}
             </select>
             <p><input class=add-button type="submit" value="Add new Question" style="font-size:20px"></p>

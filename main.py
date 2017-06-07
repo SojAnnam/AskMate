@@ -60,7 +60,6 @@ def new_question():
     \nRedirects to the questions list page'''
     if request.method == 'GET':
         select_user_list = function.select_user()
-
         return render_template("question.html", user_list=select_user_list)
 
     if request.method == "POST":
@@ -151,7 +150,8 @@ def answer_vote_down(answer_id):
 def add_new_question_comment(question_id):
     '''adds new comment to given question'''
     if request.method == 'GET':
-        return render_template("comment.html", question_id=question_id)
+        select_user_list = function.select_user()
+        return render_template("comment.html", question_id=question_id, user_list=select_user_list)
 
     if request.method == 'POST':
         function.add_new_comment(question_id, 'question_id')
@@ -162,7 +162,8 @@ def add_new_question_comment(question_id):
 def add_new__answer_comment(answer_id):
     '''adds new comment to given answer'''
     if request.method == 'GET':
-        return render_template("comment.html", answer_id=answer_id)
+        select_user_list = function.select_user()
+        return render_template("comment.html", answer_id=answer_id, user_list=select_user_list)
 
     if request.method == 'POST':
         function.add_new_comment(answer_id, 'answer_id')

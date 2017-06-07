@@ -80,8 +80,9 @@ def add_new_answer(question_id):
     submission_time = datetime.datetime.now()
     vote_number = '0'
     answer_message = request.form["newanswer"]
-    sql_to_insert_answer = ("INSERT INTO answer (submission_time,vote_number,question_id,message) VALUES ('{}','{}','{}','{}');".format(
-        submission_time, vote_number, question_id, answer_message))
+    user_id = request.form["user"]
+    sql_to_insert_answer = ("INSERT INTO answer (submission_time,vote_number,question_id,message,user_id) VALUES ('{}','{}','{}','{}','{}');".format(
+        submission_time, vote_number, question_id, answer_message, user_id))
     sql_query_post(str(sql_to_insert_answer))
 
 
@@ -114,8 +115,9 @@ def add_new_comment(_id, id_type):
     submission_time = datetime.datetime.now()
     edit_number = '0'
     comment_message = request.form["newcomment"]
-    sql_to_insert_comment = ("INSERT INTO comment ({},message,submission_time,edited_count) VALUES ('{}','{}','{}','{}');".format(
-        id_type, _id, comment_message, submission_time, edit_number))
+    user_id = request.form["user"]
+    sql_to_insert_comment = ("INSERT INTO comment ({},message,submission_time,edited_count,user_id) VALUES ('{}','{}','{}','{}','{}');".format(
+        id_type, _id, comment_message, submission_time, edit_number, user_id))
     sql_query_post(str(sql_to_insert_comment))
 
 

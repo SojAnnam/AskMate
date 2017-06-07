@@ -24,6 +24,11 @@
         <p>
             <input class=question-comment type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px"
                 minlength="10"></p>
+        <select name="user">
+            {% for user in user_list %}
+            <option value={{user[0]}}> {{user[1]}}</option>
+            {% endfor %}
+        </select>
     </form>
     {%elif answer_id %}
     <form action=/answer/{{answer_id}}/new-comment method="POST">
@@ -32,6 +37,11 @@
         <p>
             <input class=answer-comment type=submit name=comment_submit value=" Add comment " id=add_comment_button style="font-size: 20px"
                 minlength="10"></p>
+        <select name="user">
+            {% for user in user_list %}
+            <option value={{user[0]}}> {{user[1]}}</option>
+            {% endfor %}
+        </select>
     </form>
     {% endif %}
     <button onclick="goBack()">Back</button>
