@@ -1,0 +1,41 @@
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="{{ url_for ( 'static', filename='list.css' ) }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
+    </style>
+    <title>Users</title>
+</head>
+
+<body>
+    <p>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Registration date</th>
+            </tr>
+            {%for user in users_list%}
+            <tr>
+                <td><a href="./user/{{user[0]}}">{{user[1]}}</td>
+                <td>{{user[2]}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+    </p>
+    <p><a href="/">Back to Home</a></p>
+    <footer>
+        <p>
+            <font size="2"> Created by: <img src="/static/beanbaglogo.png" alt="BeanBag Team"> </font>
+        </p>
+        <p>
+            <font size="1"> We <em>DO</em> accept donations ;) </font>
+        </p>
+
+    </footer>
+    </center>
+
+</body>
+
+</html>
