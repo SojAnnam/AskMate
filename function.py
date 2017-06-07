@@ -64,6 +64,7 @@ def add_new_question():
     question_title = request.form["title"]
     question_message = request.form["message"]
     question_user = request.form["user"]
+    print(question_user)
     sql_to_insert = ("INSERT INTO question (submission_time,view_number,vote_number,title,message,user_id) VALUES ('{}','{}','{}','{}','{}','{}');".format(
         submission_time, view_number, vote_number, question_title, question_message, question_user))
     return sql_query_post(str(sql_to_insert))
