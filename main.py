@@ -219,5 +219,19 @@ def delete_tag(question_id, tag_id):
     return redirect("/question/{}".format(question_id))
 
 
+@app.route("/user/<user_id>")
+def user_details(user_id):
+    '''Renders user.html with all the activities of a given user'''
+    users_query = ("""SELECT users.username, user_attributes.*, question.title
+                   FROM (users INNER JOIN user_attributes
+                   ON users.id = user_attributes.user_id)
+                   INNER JOIN question 
+                   ON user_attributes.question_id = question.id
+                   WHERE user_id={};""".format(user_id))
+    users_queryresult = function.sql_query_get(users_query)
+    return render_template("user.html",
+                           user_activities=users_queryresult)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
