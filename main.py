@@ -236,5 +236,12 @@ def user_registration():
     return render_template("user_registration.html")
 
 
+@app.route('/users')
+def list_users():
+    get_users_query = """SELECT * FROM users;"""
+    users_list = function.sql_query_get(get_users_query)
+    return render_template("user_list.html", users_list=users_list)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
