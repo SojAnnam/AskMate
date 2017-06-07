@@ -22,6 +22,11 @@
             <textarea rows="5" cols="50" name="newanswer" id="newanswer" style="font-size: 20px" placeholder="Add new answer..."></textarea></p>
         <p>
             <input class=answer type=submit name=answer_submit value=" Add answer " id=add_answer_button style="font-size: 20px" minlength="10"></p>
+        <select>
+                {% for user in user_list %}
+                <option name=user value={{user[0]}}> {{user[1]}}</option>
+                {% endfor %}
+            </select>
     </form>
     <button onclick="goBack()">Back</button>
 </body>

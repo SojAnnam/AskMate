@@ -59,7 +59,9 @@ def new_question():
     '''Renders question.html to get a new question,  then inserts it into the database
     \nRedirects to the questions list page'''
     if request.method == 'GET':
-        return render_template("question.html")
+        select_user_list = function.select_user()
+
+        return render_template("question.html", user_list=select_user_list)
 
     if request.method == "POST":
         function.add_new_question()
@@ -85,7 +87,8 @@ def new_answer(question_id):
     '''Renders answer.html to get a new answer, then inserts it into the database
     \nRedirects to the given question's detail page'''
     if request.method == 'GET':
-        return render_template("answer.html", question_id=question_id)
+        select_user_list = function.select_user()
+        return render_template("answer.html", question_id=question_id, user_list=select_user_list)
 
     if request.method == 'POST':
         function.add_new_answer(question_id)
