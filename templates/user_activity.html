@@ -7,25 +7,38 @@
         </title>
     </head>
     <body>
+        <h3>
+            {{ user_name }}
+        </h3>
+        <h2>
+            Questions
+        </h2>
         <table id="queryresult">
             <tr id="header">
-                {% for data in user_activities[0] %}
+                {% for data in questions_header %}
                 <th>{{ data }}</th>
                 {% endfor %}
             </tr>
-            {% for row in user_activities[1:] %}
+            {% for row in user_questions %}
             <tr id="row">
-                {% for data in row %}
-                    {% if data != None %}
-                        <td>
-                            {{ data }}
-                        </td>
-                    {% else %}
-                        <td style="color:red">
-                            {{ data }}
-                        </td>
-                    {% endif %}
+                <td id=list-title-column><a href="../question/{{row[0]}}">{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+                <h2>
+            Answers
+        </h2>
+        <table id="queryresult">
+            <tr id="header">
+                {% for data in answers_header %}
+                <th>{{ data }}</th>
                 {% endfor %}
+            </tr>
+            {% for row in user_answers %}
+            <tr id="row">
+                <td id=list-title-column><a href="../question/{{row[0]}}">{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
             </tr>
             {% endfor %}
         </table>

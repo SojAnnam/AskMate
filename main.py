@@ -220,17 +220,36 @@ def delete_tag(question_id, tag_id):
 
 
 @app.route("/user/<user_id>")
-def user_details(user_id):
-    '''Renders user.html with all the activities of a given user'''
-    users_query = ("""SELECT users.username, user_attributes.*, question.title
-                   FROM (users INNER JOIN user_attributes
-                   ON users.id = user_attributes.user_id)
-                   INNER JOIN question 
-                   ON user_attributes.question_id = question.id
-                   WHERE user_id={};""".format(user_id))
-    users_queryresult = function.sql_query_get(users_query)
-    return render_template("user.html",
-                           user_activities=users_queryresult)
+def user_activities(user_id):
+    '''Renders user_activity.html with all the activities of a given user'''
+    user_name_query = ("""SELECT username
+                            FROM users
+                            WHERE id={};""".format(user_id))
+    user_name_result = function.sql_query_get(user_name_query)
+    questions_header = ["Question Title", "Question Message"]
+    user_questions_query = ("""SELECT question.id, question.title, question.message
+                            FROM (users INNER JOIN user_attributes
+                            ON users.id = user_attributes.user_id)
+                            INNER JOIN question
+                            ON user_attributes.question_id = question.id
+                            WHERE user_id={};""".format(user_id))
+    user_questions_result = function.sql_query_get(user_questions_query)
+
+    answers_header = ["Question Title", "Answer Message"]
+    user_answers_query = ("""SELECT answer.question_id, question.title, answer.id, answer.message
+                            FROM (users INNER JOIN user_attributes
+                            ON users.id = user_attributes.user_id)
+                            INNER JOIN answer
+                            ON user_attributes.question_id = answer.id
+                            WHERE user_id={};""".format(user_id))
+    user_answers_result = function.sql_query_get(user_answers_query)
+
+    return render_template("user_activity.html",
+                           user_name=user_name_result[0][0],
+                           questions_header=questions_header,
+                           user_questions=user_questions_result,
+                           answers_header=answers_header,
+                           user_answers=user_answers_result,)
 
 
 if __name__ == '__main__':
