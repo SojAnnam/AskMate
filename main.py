@@ -223,39 +223,55 @@ def delete_tag(question_id, tag_id):
 def user_activities(user_id):
     '''Renders user_activity.html with all the activities of a given user'''
     user_name_query = ("""SELECT username
-                            FROM users
-                            WHERE id={};""".format(user_id))
+                          FROM users
+                          WHERE id={};""".format(user_id))
     user_name_result = function.sql_query_get(user_name_query)
-    questions_header = ["Question Title", "Question Message"]
-    user_questions_query = ("""SELECT question.id, question.title, question.message
-                            FROM (users INNER JOIN user_attributes
-                            ON users.id = user_attributes.user_id)
-                            INNER JOIN question
-                            ON user_attributes.question_id = question.id
-                            WHERE user_id={};""".format(user_id))
+
+    questions_header = ["Question"]
+    user_questions_query = ("""SELECT question.user_id, question.id, question.title
+                               FROM question
+                               WHERE question.user_id={};""".format(user_id))
     user_questions_result = function.sql_query_get(user_questions_query)
 
-    answers_header = ["Question Title", "Answer Message"]
-    user_answers_query = ("""SELECT answer.question_id, question.title, answer.id, answer.message
-                            FROM (users INNER JOIN user_attributes
-                            ON users.id = user_attributes.user_id)
-                            INNER JOIN answer
-                            ON user_attributes.question_id = answer.id
-                            WHERE user_id={};""".format(user_id))
+    answers_header = ["Question", "Answer"]
+    user_answers_query = ("""SELECT answer.user_id, question.id, question.title, answer.message
+                             FROM question
+                             INNER JOIN answer
+                             ON question.id = answer.question_id
+                             WHERE answer.user_id={};""".format(user_id))
     user_answers_result = function.sql_query_get(user_answers_query)
 
+    comments_header = ["Question", "Answer", "Comment"]
+    user_question_comments_query = ("""SELECT question.id, question.title, comment.id, comment.message, comment.user_id
+                                       FROM comment INNER JOIN question ON question.id=comment.question_id
+                                       WHERE comment.user_id={};""".format(user_id))
+    user_question_comments_result = function.sql_query_get(user_question_comments_query)
+
+    user_answer_comments_query = ("""SELECT question.id, question.title, answer.id, answer.message, comment.id, comment.message, comment.user_id
+                                     FROM ((comment LEFT JOIN answer ON answer.id=comment.answer_id)
+                                     INNER JOIN question ON question.id=answer.question_id)
+                                     WHERE comment.user_id={};""".format(user_id))
+    user_answer_comments_result = function.sql_query_get(user_answer_comments_query)
+    print("000000000000000000")
+    print(user_id)
+    print(len(user_questions_result))
+    print(len(user_answers_result))
+    print(len(user_question_comments_result))
+    print(len(user_answer_comments_result))
     return render_template("user_activity.html",
                            user_name=user_name_result[0][0],
                            questions_header=questions_header,
                            user_questions=user_questions_result,
                            answers_header=answers_header,
-                           user_answers=user_answers_result,)
+                           user_answers=user_answers_result,
+                           comments_header=comments_header,
+                           user_question_comments=user_question_comments_result,
+                           user_answer_comments=user_answer_comments_result,)
 
 
 @app.route('/registration/register-user', methods=['POST'])
 def register_user():
     user_name = request.form['username']
-    print(user_name)
     date = datetime.datetime.now()
     register_user_query = """INSERT INTO users
                             (username, date)
