@@ -236,7 +236,7 @@ def user_activities(user_id):
     '''Renders user_activity.html with all the activities of a given user'''
     table_header = ["Question", "Answer", "Comment"]
     user_name = db_query.select_query_where('username', 'users', 'id', user_id)
-    user_questions = db_query.select_query_where('question.title', 'question', 'question.user_id', user_id)
+    user_questions = db_query.select_query_where('question.title, question.id', 'question', 'question.user_id', user_id)
     user_answers = db_query.user_answers_query(user_id)
     user_question_comments = db_query.user_question_comments_query(user_id)
     user_answer_comments = db_query.user_answer_comments_query(user_id)
