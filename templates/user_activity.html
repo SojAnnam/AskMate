@@ -20,13 +20,11 @@
         {% if user_questions|length != 0 %}
             <table id="queryresult">
                 <tr id="header">
-                    {% for data in questions_header %}
-                    <th>{{ data }}</th>
-                    {% endfor %}
+                    <th>{{ table_header[0] }}</th>
                 </tr>
                 {% for row in user_questions %}
                 <tr id="row">
-                    <td id=title-column><a href="../question/{{row[1]}}">{{ row[2] }}</td>
+                    <td id=title-column><a href="../question/{{row[1]}}">{{ row[0] }}</td>
                 </tr>
                 {% endfor %}
             </table>
@@ -41,14 +39,13 @@
         {% if user_answers|length != 0 %}
             <table id="queryresult">
                 <tr id="header">
-                    {% for data in answers_header %}
-                    <th>{{ data }}</th>
-                    {% endfor %}
+                    <th>{{ table_header[0] }}</th>
+                    <th>{{ table_header[1] }}</th>
                 </tr>
                 {% for row in user_answers %}
                 <tr id="row">
-                    <td id=title-column><a href="../question/{{row[1]}}">{{ row[2] }}</td>
-                    <td>{{ row[3] }}</td>
+                    <td id=title-column><a href="../question/{{row[1]}}">{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
                 </tr>
                 {% endfor %}
             </table>
@@ -63,22 +60,22 @@
         {% if user_question_comments|length + user_answer_comments|length != 0 %}
             <table id="queryresult">
                 <tr id="header">
-                    {% for data in comments_header %}
-                    <th>{{ data }}</th>
-                    {% endfor %}
+                    <th>{{ table_header[0] }}</th>
+                    <th>{{ table_header[1] }}</th>
+                    <th>{{ table_header[2] }}</th>
                 </tr>
                 {% for row in user_question_comments %}
                 <tr id="row">
-                    <td id=title-column><a href="../question/{{row[0]}}">{{ row[1] }}</td>
+                    <td id=title-column><a href="../question/{{row[0]}}">{{ row[0] }}</td>
                     <td></td>
-                    <td>{{ row[3] }}</td>
+                    <td>{{ row[1] }}</td>
                 </tr>
                 {% endfor %}
                 {% for row in user_answer_comments %}
                 <tr id="row">
+                    <td id=title-column><a href="../question/{{row[0]}}">{{ row[0] }}</td>
                     <td id=title-column><a href="../question/{{row[0]}}">{{ row[1] }}</td>
-                    <td id=title-column><a href="../question/{{row[0]}}">{{ row[3] }}</td>
-                    <td>{{ row[5] }}</td>
+                    <td>{{ row[2] }}</td>
                 </tr>
                 {% endfor %}
             </table>

@@ -236,46 +236,19 @@ def delete_tag(question_id, tag_id):
 @app.route("/user/<user_id>")
 def user_activities(user_id):
     '''Renders user_activity.html with all the activities of a given user'''
-    user_name_query = ("""SELECT username
-                          FROM users
-                          WHERE id={};""".format(user_id))
-    user_name_result = function.sql_query_get(user_name_query)
-
-    questions_header = ["Question"]
-    user_questions_query = ("""SELECT question.user_id, question.id, question.title
-                               FROM question
-                               WHERE question.user_id={};""".format(user_id))
-    user_questions_result = function.sql_query_get(user_questions_query)
-
-    answers_header = ["Question", "Answer"]
-    user_answers_query = ("""SELECT answer.user_id, question.id, question.title, answer.message
-                             FROM question
-                             INNER JOIN answer
-                             ON question.id = answer.question_id
-                             WHERE answer.user_id={};""".format(user_id))
-    user_answers_result = function.sql_query_get(user_answers_query)
-
-    comments_header = ["Question", "Answer", "Comment"]
-    user_question_comments_query = ("""SELECT question.id, question.title, comment.id, comment.message, comment.user_id
-                                       FROM comment INNER JOIN question ON question.id=comment.question_id
-                                       WHERE comment.user_id={};""".format(user_id))
-    user_question_comments_result = function.sql_query_get(user_question_comments_query)
-
-    user_answer_comments_query = ("""SELECT question.id, question.title, answer.id, answer.message, comment.id, comment.message, comment.user_id
-                                     FROM ((comment LEFT JOIN answer ON answer.id=comment.answer_id)
-                                     INNER JOIN question ON question.id=answer.question_id)
-                                     WHERE comment.user_id={};""".format(user_id))
-    user_answer_comments_result = function.sql_query_get(user_answer_comments_query)
-    
+    table_header = ["Question", "Answer", "Comment"]
+    user_name = function.select_query('username', 'users', 'id', user_id)
+    user_questions = function.select_query('question.title', 'question', 'question.user_id', user_id)
+    user_answers = function.user_answers_query(user_id)
+    user_question_comments = function.user_question_comments_query(user_id)
+    user_answer_comments = function.user_answer_comments_query(user_id)
     return render_template("user_activity.html",
-                           user_name=user_name_result[0][0],
-                           questions_header=questions_header,
-                           user_questions=user_questions_result,
-                           answers_header=answers_header,
-                           user_answers=user_answers_result,
-                           comments_header=comments_header,
-                           user_question_comments=user_question_comments_result,
-                           user_answer_comments=user_answer_comments_result,)
+                           user_name=user_name[0][0],
+                           table_header=table_header,
+                           user_questions=user_questions,
+                           user_answers=user_answers,
+                           user_question_comments=user_question_comments,
+                           user_answer_comments=user_answer_comments)
 
 
 @app.route('/registration/register-user', methods=['POST'])
