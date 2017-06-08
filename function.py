@@ -109,6 +109,65 @@ def edit_question_query(_id):
     sql_query_post(str(sql_to_edit_question))
 
 
+def question_select_query(question_id):
+    """Select question from question table and user from users table by question_id"""
+    question_query = ("""SELECT question.id, question.submission_time,question.view_number,question.vote_number,question.title,question.message,users.username
+                           FROM question
+                           LEFT JOIN users ON question.user_id=users.id
+                           WHERE question.id = {};""".format(question_id))
+    return sql_query_get(str(question_query))
+
+
+def answer_select_query(question_id):
+    """Select answer from answer table and user from users table by question_id"""
+    answer_query = ("""SELECT answer.id, answer.submission_time, answer.vote_number, answer.message, users.username
+                         FROM answer
+                         LEFT JOIN users ON answer.user_id = users.id
+                         WHERE answer.question_id = {}; """.format(question_id))
+    return sql_query_get(str(answer_query))
+
+
+def question_comment_select_query(question_id):
+    """Select question comment from comment table and user from users table by question_id"""
+    question_comment_query = ("""SELECT comment.id, comment.message, comment.submission_time, users.username
+                                FROM comment
+                                LEFT JOIN users ON comment.user_id = users.id
+                                WHERE comment.question_id = {}; """.format(question_id))
+    return sql_query_get(str(question_comment_query))
+
+
+def answer_comment_select_query(question_id):
+    """Select answer comment from comment table and user from users table by question_id"""
+    answer_comment_query = ("""SELECT comment.id, comment.answer_id, comment.message, comment.submission_time, users.username
+                                 FROM comment
+                                 LEFT JOIN users ON comment.user_id = users.id
+                                 LEFT JOIN answer ON comment.answer_id = answer.id
+                                 WHERE answer.question_id = {}; """.format(question_id))
+    return sql_query_get(str(answer_comment_query))
+
+
+def delete_answer_comment_query(question_id):
+    answer_comment_delete = ("""DELETE FROM comment
+                                WHERE answer_id
+                                IN(SELECT answer_id FROM answer WHERE question_id={});""".format(question_id))
+    return sql_query_post(str(answer_comment_delete))
+
+
+def question_tag_insert_query(question_id, tag_item):
+    question_tag_insert = ("""INSERT INTO question_tag (question_id,tag_id)
+                              VALUES ('{}','{}');""".format(question_id, int(tag_item)))
+    return sql_query_post(question_tag_insert)
+
+
+def tag_select_query(question_id):
+    """Select tag from question_tag table by question_id"""
+    tag_query = ("""SELECT  question_tag.question_id, tag.id, tag.name
+                      FROM question_tag
+                      INNER JOIN tag ON question_tag.tag_id=tag.id
+                      WHERE question_id = {};""".format(question_id))
+    return sql_query_get(str(tag_query))
+
+
 def add_new_comment(_id, id_type):
     """Insert a new comment into the comment table.
     Input parameters: _id(query value)= question_id or answer_id, id_type(sql coloumn)=question_id or answer_id"""
