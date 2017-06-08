@@ -1,30 +1,51 @@
 <!DOCTYPE HTML>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="{{ url_for ( 'static', filename='question_details.css' ) }}">
-        <style>
-            @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
-        </style>
-        <title>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
+        table {
+            background-color: rgba(200, 200, 180, 0.5);
+        }
+
+        th {
+            background-color: rgba(190, 190, 170, 0.5);
+        }
+
+        body {
+            background-color: lightgray;
+            background-image: url(/static/robi4.png);
+            background-repeat: no-repeat;
+            background-position: right;
+            background-attachment: fixed;
+            font-family: 'Special Elite', cursive;
+            font-size: 14px;
+            line-height: 1.88889;
+            color: black;
+        }
+    </style>
+    <title>
         User Activities
-        </title>
-    </head>
-    <body>
-        <h3>
-            {{ user_name }}
-        </h3>
-        <h2>
-            Questions
-        </h2>
-        {% if user_questions|length != 0 %}
-            <table id="queryresult">
-                <tr id="header">
-                    <th>{{ table_header[0] }}</th>
-                </tr>
-                {% for row in user_questions %}
-                <tr id="row">
-                    <td id=title-column><a href="../question/{{row[1]}}">{{ row[0] }}</td>
+    </title>
+</head>
+
+<body>
+    <h3>
+        {{ user_name }}
+    </h3>
+    <h2>
+        Questions
+    </h2>
+    {% if user_questions|length != 0 %}
+    <table class="table-hover" id="queryresult">
+        <tr id="header">
+            <th>{{ table_header[0] }}</th>
+        </tr>
+        {% for row in user_questions %}
+        <tr id="row">
+            <td id=title-column><a href="../question/{{row[1]}}">{{ row[0] }}</td>
                 </tr>
                 {% endfor %}
             </table>
@@ -51,7 +72,7 @@
             </table>
         {% else %}
             <p>
-                There are no Answeres by {{ user_name }}!
+                There are no Answers by {{ user_name }}!
             </p>
         {% endif %}
         <h2>
@@ -84,16 +105,17 @@
                 There are no Comments by {{ user_name }}!
             </p>
         {% endif %}
-        <p>
-            <a href="/">Back to Home</a>
-        </p>
-        <footer>
-            <p>
-                <font size="2"> Created by: <img src="/static/beanbaglogo.png" alt="BeanBag Team"> </font>
-            </p>
-            <p>
-                <font size="1"> We <em>DO</em> accept donations ;) </font>
-            </p>
-        </footer>
-    </body>
+        <form action="/" method="GET" style="margin-top:80px;">
+        <p><input class=btn-success type="submit" name="home" value="Home" id="home"></p>
+    </form>
+                <footer>
+                    <p>
+                        <font size="2"> Created by: <img src="/static/beanbaglogo.png" alt="BeanBag Team"> </font>
+                    </p>
+                    <p>
+                        <font size="1"> We <em>DO</em> accept donations ;) </font>
+                    </p>
+                </footer>
+</body>
+
 </html>

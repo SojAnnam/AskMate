@@ -8,45 +8,45 @@ body {
 	background-position: right;
 	background-attachment: fixed;
 	font-family: 'Special Elite', cursive;
-	font-size:20px;
+	font-size:14px;
 	line-height: 1.88889;
 	color: black;
 	}
 h2{
 	font-family: barrio,cursive;
 	color:black;
-	font-size:50px;
+	font-size:30px;
 	margin:20px;
 	letter-spacing: 0.05em;
 	}
 h3{
-	font-size:30px
+	font-size:16px
 }
 textarea,input.title,.new-commit{
-	font-size:25px;
+	font-size:15px;
 	font-family: 'Special Elite',cursive;
 }
 input.add-button,input.answer,input.answer-comment{
 	font-family: barrio,cursive;
 	color:greenyellow;
-	font-size:50px;
+	font-size:30px;
 	background-color: black;
 	}
 input.add-button:hover, input.answer:hover,input.answer-comment:hover{
 	font-family: barrio,cursive;
 	color:black;
-	font-size:50px;
+	font-size:30px;
 	background-color:greenyellow;
 	}
 input.edit-button,input.question-comment{
 	font-family: barrio,cursive;
 	color:lightsalmon;
-	font-size:50px;
+	font-size:30px;
 	background-color: black;
 	}
 input.edit-button:hover, input.question-comment:hover{
 	font-family: barrio,cursive;
 	color:black;
-	font-size:50px;
+	font-size:30px;
 	background-color:lightsalmon;
 	}
