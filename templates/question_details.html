@@ -9,13 +9,24 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
+        table {
+            background-color: rgba(200, 200, 180, 0.5);
+        }
+
+        th {
+            background-color: rgba(180, 180, 160, 0.5);
+        }
+
+        #answer_comment_tr {
+            background-color: rgba(160, 160, 140, 0.5);
+        }
     </style>
     <script>
         function goBack() {
             window.history.back()
         }
     </script>
-    <title>Question details</title>
+    <title>Details</title>
 </head>
 
 <body background="/static/robi4-opacity.png" style="background-color:lightgray ;
@@ -41,14 +52,12 @@
                 </p>
                 <table class="table-bordered">
                     <tr align="center">
-                        <th style="padding-right:3px;text-align:center;">ID</th>
                         <th style="padding-right:3px;text-align:center;">Submission Time</th>
                         <th style="padding-right:3px;text-align:center;">Views</th>
                         <th style="padding-right:3px;text-align:center;">Vote</th>
                         <th style="padding-right:3px;text-align:center;">User</th>
                     </tr>
                     <tr align="left">
-                        <td>{{question[0]}}</td>
                         <td>{{question[1]}}</td>
                         <td>{{question[2]}}</td>
                         <td>{{question[3]}}</td>
@@ -56,7 +65,7 @@
                     </tr>
                 </table>
                 <form action=./{{question_id}}/edit method="GET">
-                    <p><input class="btn-xs btn-basic" type="submit" name="editquestion" value="Edit question" id="editquestion"></p>
+                    <p><input class="btn-xs btn-primary" type="submit" name="editquestion" value="Edit question" id="editquestion"></p>
                 </form>
 
             </div>
@@ -64,7 +73,7 @@
         <div class="row">
             <div class="col-md-9">
                 <form action=./{{question_id}}/new-answer method="GET">
-                    <input class=btn-primary type="submit" name="newanswer" value="New answer" id="newanswer" style="font-size: 10px">
+                    <input class="btn-primary btn-sm" type="submit" name="newanswer" value="New answer" id="newanswer">
                 </form>
                 <table class=table-hover style="margin-bottom:80px;">
                     <tr>
@@ -84,11 +93,11 @@
                         <td width="5%">
                             <form action="/answer/{{ row[0] }}/vote-up" method="POST">
                                 <input type=hidden value="{{question_id}}" name="questionid" />
-                                <input class="btn-basic btn-xs" type="submit" value="&#9650;" />
+                                <input class="btn-warning btn-xs" type="submit" value="&#9650;" />
                             </form>
                             <form action="/answer/{{ row[0] }}/vote-down" method="POST">
                                 <input type=hidden value="{{question_id}}" name="questionid" />
-                                <input class="btn-basic btn-xs" type="submit" value="&#9660;" />
+                                <input class="btn-warning btn-xs" type="submit" value="&#9660;" />
                             </form>
                         </td>
                         <td width="15%" align="center">{{row[1]}}</td>
@@ -96,24 +105,24 @@
                         <td width="5%">
                             <form action="/answer/{{ row[0] }}/new-comment" method="GET">
                                 <input type=hidden value="{{question_id}}" name="questionid" />
-                                <input class="btn-basic btn-xs" type="submit" name="newcomment" value="New comment" id="newcomment" />
+                                <input class="btn-primary btn-xs" type="submit" name="newcomment" value="New comment" id="newcomment" />
                             </form>
                         </td>
                         <td width="5%">
                             <form action="/answer/{{ row[0] }}/delete" method="POST">
                                 <input type=hidden value="{{question_id}}" name="questionid" />
-                                <input class="btn-basic btn-xs" align="center" type="submit" value="Delete" />
+                                <input class="btn-danger btn-xs" align="center" type="submit" value="Delete" />
                             </form>
                         </td>
                     </tr>
                     {% if answer_comment_table|count > 0 %} {% for answer_comment in answer_comment_table %} {% if row[0]== answer_comment[1]%}
-                    <tr>
+                    <tr id=answer_comment_tr>
                         <td style="padding-left:80px;" align="left">{{answer_comment[2]}}</td>
                         <td align="left">{{answer_comment[4]}}</td>
                         <td>
                             <form action="/comment/{{ answer_comment[0] }}/delete" method="POST">
                                 <input type=hidden value="{{question_id}}" name="questionid" />
-                                <input class="btn-xs btn-basic" align="center" type="submit" value="Delete" />
+                                <input class="btn-xs btn-danger" align="center" type="submit" value="Delete" />
                             </form>
                         </td>
                     </tr>
@@ -125,23 +134,28 @@
 
     </div>
     <div class="col-md-3">
-        <p>
-            <h2>Comments</h2>
-        </p>
-        <table class="table-bordered">
+        <table class="table-bordered" style="margin-top:25px;">
             {% if comments|count > 0 %}
             <tr>
-                <th style="padding-right:3px;padding-left:5px;text-align:center;">Comments</th>
-                <th style="padding-right:3px;padding-left:5px;text-align:center;">User</th>
+                <th style="padding-right:3px;padding-left:5px;text-align:center;">
+                    <font size="2">Comments</font>
+                </th>
+                <th style="padding-right:3px;padding-left:5px;text-align:center;">
+                    <font size="2">User</font>
+                </th>
             </tr>
             {%endif%} {% for comment in comments %}
             <tr>
-                <td style="padding-right:5px;padding-left:5px;text-align:left;">{{comment[1]}}</td>
-                <td style="padding-right:5px;padding-left:5px;text-align:left;">{{comment[3]}}</td>
+                <td style="padding-right:5px;padding-left:5px;text-align:left;">
+                    <font size="2">{{comment[1]}}</font>
+                </td>
+                <td style="padding-right:5px;padding-left:5px;text-align:left;">
+                    <font size="2">{{comment[3]}}</font>
+                </td>
                 <td>
                     <form action="/comment/{{ comment[0] }}/delete" method="POST">
                         <input type=hidden value="{{question_id}}" name="questionid" />
-                        <input class="btn-xs btn-basic" align="center" type="submit" value="Delete" />
+                        <input class="btn-xs btn-danger" align="center" type="submit" value="Delete" />
                     </form>
                 </td>
             </tr>
@@ -149,7 +163,7 @@
             {% endfor %}
         </table>
         <form action=./{{question_id}}/new-comment method="GET">
-            <p><input class="btn-xs btn-basic" type="submit" name="newcomment" value="New comment" id="newcomment"></p>
+            <p><input class="btn-xs btn-primary" type="submit" name="newcomment" value="New comment" id="newcomment"></p>
         </form>
     </div>
     </div>
@@ -176,9 +190,10 @@
                 </form>
             </div>
         </div>
-        <p><a href="/">Back to Home</a></p>
-        <p>
-            <font size="2"> Created by: BeanBag Team </font>
+        <form action="/" method="GET" style="margin-top:80px;">
+            <p><input class=btn-success type="submit" name="home" value="Home" id="home"></p>
+        </form>
+        <font size="2"> Created by: <img src="/static/beanbaglogo.png" alt="BeanBag Team"> </font>
         </p>
     </footer>
 </body>
