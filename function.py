@@ -203,3 +203,33 @@ def update_view_count_query(question_id):
     print(view_count)
     view_update_query = """UPDATE question SET view_number={} WHERE id={};""".format(new_view_count, question_id)
     sql_query_post(view_update_query)
+    
+def user_answers_query(user_id):
+    """Select Users's Answers (and the relevant Questions)
+    from the "answer" and "question" tables"""
+    user_answers_query = ("""SELECT question.title, answer.message
+                             FROM question
+                             INNER JOIN answer
+                             ON question.id = answer.question_id
+                             WHERE answer.user_id={};""".format(user_id))
+    return sql_query_get(user_answers_query)
+
+
+def user_question_comments_query(user_id):
+    """Select Users's Comments (and the relevant Questions)
+    from the "comment" and "question" tables"""
+    user_question_comments_query = ("""SELECT question.title, comment.message
+                                       FROM comment INNER JOIN question ON question.id=comment.question_id
+                                       WHERE comment.user_id={};""".format(user_id))
+    return sql_query_get(user_question_comments_query)
+
+
+def user_answer_comments_query(user_id):
+    """Select Users's Comments (and the relevant Questions and Answers)
+    from the "comment", "answer" and "question" tables"""
+    user_answer_comments_query = ("""SELECT question.title, answer.message, comment.message
+                                     FROM comment LEFT JOIN answer ON answer.id=comment.answer_id
+                                     INNER JOIN question ON question.id=answer.question_id
+                                     WHERE comment.user_id={};""".format(user_id))
+    return sql_query_get(user_answer_comments_query)
+
