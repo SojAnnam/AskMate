@@ -186,3 +186,24 @@
 </body>
 
 </html>
+, {% if answer_comment_table|count > 0 %}
+<table class="table-bordered">
+    <tr>
+        <th style="padding-left:50px;"></th>
+        <th align="left">Comment</th>
+        <th align="left">User</th>
+    </tr>
+    {%endif%} {% for answer_comment in answer_comment_table %}{% if row[0]== answer_comment[1]%}
+    <tr>
+        <td style="padding-left:50px;"></td>
+        <td align="left">{{answer_comment[2]}}</td>
+        <td align="left">{{answer_comment[4]}}</td>
+        <td>
+            <form action="/comment/{{ answer_comment[0] }}/delete" method="POST">
+                <input type=hidden value="{{question_id}}" name="questionid" />
+                <input class="btn-xs btn-basic" align="center" type="submit" value="Delete" />
+            </form>
+        </td>
+    </tr>
+    {% endif %} {% endfor %} {% endfor %}
+</table>
