@@ -37,10 +37,20 @@ def show_list_latest():
 @app.route("/question/<question_id>")
 def question_details(question_id):
     '''Renders question_details.html with the details of a given question'''
-    question_table = function.select_query('*', 'question', 'id', question_id)
-    answer_table = function.select_query('*', 'answer', 'question_id', question_id)
-    question_comment_table = function.select_query('*', 'comment', 'question_id', question_id)
-    answer_comment_query = ("SELECT comment.id,comment.question_id,comment.answer_id,comment.message,comment.submission_time,comment.edited_count FROM comment LEFT JOIN answer ON comment.answer_id=answer.id WHERE answer.question_id={};".format(question_id))
+    question_query = ("SELECT question.id, question.submission_time,question.view_number,question.vote_number,question.title,question.message,users.username FROM question LEFT JOIN users ON question.user_id=users.id WHERE question.id = {};".format(question_id))
+    question_table = function.sql_query_get(str(question_query))
+    answer_query = ("SELECT answer.id, answer.submission_time,answer.vote_number,answer.message,users.username FROM answer LEFT JOIN users ON answer.user_id=users.id WHERE answer.question_id = {};".format(question_id))
+    answer_table = function.sql_query_get(str(answer_query))
+    question_comment_query = ("""SELECT comment.id,comment.message,comment.submission_time, users.username
+                                FROM comment 
+                                LEFT JOIN users ON comment.user_id=users.id
+                                WHERE comment.question_id = {};""".format(question_id))
+    question_comment_table = function.sql_query_get(str(question_comment_query))
+    answer_comment_query = ("""SELECT comment.id,comment.answer_id,comment.message,comment.submission_time,users.username
+                                 FROM comment
+                                 LEFT JOIN users ON comment.user_id=users.id
+                                 LEFT JOIN answer ON comment.answer_id=answer.id
+                                 WHERE answer.question_id={};""".format(question_id))
     answer_comment_table = function.sql_query_get(str(answer_comment_query))
     tag_query = ("SELECT  question_tag.question_id, tag.id, tag.name FROM question_tag INNER JOIN tag ON question_tag.tag_id=tag.id WHERE question_id = {};".format(question_id))
     tag_table = function.sql_query_get(str(tag_query))
@@ -59,7 +69,8 @@ def new_question():
     '''Renders question.html to get a new question,  then inserts it into the database
     \nRedirects to the questions list page'''
     if request.method == 'GET':
-        return render_template("question.html")
+        select_user_list = function.select_user()
+        return render_template("question.html", user_list=select_user_list)
 
     if request.method == "POST":
         function.add_new_question()
@@ -85,7 +96,8 @@ def new_answer(question_id):
     '''Renders answer.html to get a new answer, then inserts it into the database
     \nRedirects to the given question's detail page'''
     if request.method == 'GET':
-        return render_template("answer.html", question_id=question_id)
+        select_user_list = function.select_user()
+        return render_template("answer.html", question_id=question_id, user_list=select_user_list)
 
     if request.method == 'POST':
         function.add_new_answer(question_id)
@@ -148,7 +160,8 @@ def answer_vote_down(answer_id):
 def add_new_question_comment(question_id):
     '''adds new comment to given question'''
     if request.method == 'GET':
-        return render_template("comment.html", question_id=question_id)
+        select_user_list = function.select_user()
+        return render_template("comment.html", question_id=question_id, user_list=select_user_list)
 
     if request.method == 'POST':
         function.add_new_comment(question_id, 'question_id')
@@ -159,7 +172,8 @@ def add_new_question_comment(question_id):
 def add_new__answer_comment(answer_id):
     '''adds new comment to given answer'''
     if request.method == 'GET':
-        return render_template("comment.html", answer_id=answer_id)
+        select_user_list = function.select_user()
+        return render_template("comment.html", answer_id=answer_id, user_list=select_user_list)
 
     if request.method == 'POST':
         function.add_new_comment(answer_id, 'answer_id')
