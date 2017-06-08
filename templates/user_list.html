@@ -1,20 +1,41 @@
 <html>
 
 <head>
-
-    <link rel="stylesheet" href="{{ url_for ( 'static', filename='list.css' ) }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
+        table {
+            margin-top: 50px;
+            background-color: rgba(200, 200, 180, 0.5);
+            width: 500px;
+            font-size: 15px;
+        }
+
+        th {
+            background-color: rgba(190, 190, 170, 0.5);
+        }
+
+        body {
+            background-color: lightgray;
+            background-image: url(/static/robi4.png);
+            background-repeat: no-repeat;
+            background-position: right;
+            background-attachment: fixed;
+            font-family: 'Special Elite', cursive;
+            font-size: 20px;
+            line-height: 1.88889;
+            color: black;
+        }
     </style>
     <title>Users</title>
 </head>
 
 <body>
-    <p>
-        <table>
+    <center>
+        <table class="table-hover">
             <tr>
-                <th>Username</th>
-                <th>Registration date</th>
+                <th align="center">Username</th>
+                <th align="center">Registration date</th>
             </tr>
             {%for user in users_list%}
             <tr>
@@ -23,8 +44,10 @@
             </tr>
             {%endfor%}
         </table>
-    </p>
-    <p><a href="/">Back to Home</a></p>
+    </center>
+    <form action="/" method="GET" style="margin-top:80px;">
+            <p><input class="btn-success btn-sm" type="submit" name="home" value="Home" id="home"></p>
+        </form>
     <footer>
         <p>
             <font size="2"> Created by: <img src="/static/beanbaglogo.png" alt="BeanBag Team"> </font>
