@@ -252,12 +252,7 @@ def user_activities(user_id):
                                      INNER JOIN question ON question.id=answer.question_id)
                                      WHERE comment.user_id={};""".format(user_id))
     user_answer_comments_result = function.sql_query_get(user_answer_comments_query)
-    print("000000000000000000")
-    print(user_id)
-    print(len(user_questions_result))
-    print(len(user_answers_result))
-    print(len(user_question_comments_result))
-    print(len(user_answer_comments_result))
+    
     return render_template("user_activity.html",
                            user_name=user_name_result[0][0],
                            questions_header=questions_header,
