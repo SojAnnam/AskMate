@@ -43,12 +43,14 @@
                 <th class="details" align="left">Submission Time</th>
                 <th class="details" align="left">Views</th>
                 <th class="details" align="left">Vote</th>
+                <th class="details" align="left">User</th>
             </tr>
             <tr>
                 <td class="details">{{question[0]}}</td>
                 <td class="details">{{question[1]}}</td>
                 <td class="details">{{question[2]}}</td>
                 <td class="details">{{question[3]}}</td>
+                <td class="details">{{question[6]}}</td>
             </tr>
         </table>
         <form action=./{{question_id}}/edit method="GET">
@@ -63,12 +65,15 @@
                 <th class="comment" align="left">ID</th>
                 <th class="comment" align="left">Comments</th>
                 <th class="comment" align="left">Submission Time</th>
+                <th class="comment" align="left">User</th>
             </tr>
             {%endif%} {% for comment in comments %}
             <tr>
                 <td class="comment" align="left">{{comment[0]}}</td>
+                <td class="comment" align="left">{{comment[1]}}</td>
+                <td class="comment" align="left">{{comment[2]}}</td>
                 <td class="comment" align="left">{{comment[3]}}</td>
-                <td class="comment" align="left">{{comment[4]}}</td>
+
                 <td>
                     <form action="/comment/{{ comment[0] }}/delete" method="POST">
                         <input type=hidden value="{{question_id}}" name="questionid" />
@@ -93,13 +98,15 @@
                 <th class="answers" align="center">Votes</th>
                 <th class="answers" align="center"></th>
                 <th class="answers" align="center">Submission Time</th>
+                <th class="answers" align="center">User</th>
                 <th class="answers" align="center"></th>
                 <th class="answers" align="center"></th>
             </tr>
             {% for row in answers %}
             <tr>
                 <td width="5%" class="answers" align="center">{{row[0]}}</td>
-                <td width="70%" class="answers" align="left">{{row[4]}}</td>
+                <td width="70%" class="answers" align="left">{{row[3]}}</td>
+
                 <td width="5%" class="answers" align="center">{{row[2]}}</td>
                 <td width="5%">
                     <br>
@@ -113,6 +120,7 @@
                     </form>
                 </td>
                 <td width="10%" class="answers" align="center">{{row[1]}}</td>
+                <td width="70%" class="answers" align="left">{{row[4]}}</td>
                 <td width="5%">
                     <form action="/answer/{{ row[0] }}/new-comment" method="GET">
                         <input type=hidden value="{{question_id}}" name="questionid" />
@@ -131,11 +139,13 @@
                 <th class="comment" align="left">ID</th>
                 <th class="comment" align="left">Comments</th>
                 <th class="comment" align="left">Submission Time</th>
+                <th class="comment" align="left">User</th>
             </tr>
-            {%endif%} {% for answer_comment in answer_comment_table %} {% if row[0]== answer_comment[2] %}
+            {%endif%} {% for answer_comment in answer_comment_table %}{% if row[0]== answer_comment[1]%}
 
             <tr>
                 <td class="comment" align="left">{{answer_comment[0]}}</td>
+                <td class="comment" align="left">{{answer_comment[2]}}</td>
                 <td class="comment" align="left">{{answer_comment[3]}}</td>
                 <td class="comment" align="left">{{answer_comment[4]}}</td>
                 <td>
