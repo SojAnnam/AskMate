@@ -1,41 +1,7 @@
 import psycopg2
 from flask import request
 import datetime
-
-
-def get_config():
-    with open("config.txt") as config:
-        config = config.readlines()
-    return config
-
-
-def sql_query_get(query):
-    config = get_config()
-    try:
-        connect_str = "dbname={} user={} host='localhost' password={}".format(config[0], config[0], config[1])
-        conn = psycopg2.connect(connect_str)
-        conn.autocommit = True
-    except:
-        print("I am unable to connect to the database")
-    cur = conn.cursor()
-    cur.execute(query)
-    table = cur.fetchall()
-    table = (list(map(list, table)))
-    return table
-
-
-def sql_query_post(query):
-    config = get_config()
-    try:
-        connect_str = "dbname={} user={} host='localhost' password={}".format(config[0], config[0], config[1])
-        conn = psycopg2.connect(connect_str)
-        conn.autocommit = True
-    except:
-        print("I am unable to connect to the database")
-    cur = conn.cursor()
-    cur.execute(query)
-    conn.close()
-    return None
+import db_connection
 
 
 def sort_query():
@@ -43,7 +9,7 @@ def sort_query():
         criteria = key
         order = request.args.get(key)
     query = "SELECT * FROM question ORDER BY {} {};".format(criteria, order)
-    return sql_query_get(query)
+    return db_connection.db_request(query)
 
 
 def search_query():
@@ -53,7 +19,7 @@ def search_query():
     WHERE question.title LIKE '%{}%'
     OR question.message LIKE '%{}%'
     OR answer.message LIKE '%{}%';""".format(search_parameter, search_parameter, search_parameter)
-    return sql_query_get(str(search_query))
+    return db_connection.db_request(str(search_query))
 
 
 def add_new_question():
@@ -67,12 +33,12 @@ def add_new_question():
     print(question_user)
     sql_to_insert = ("INSERT INTO question (submission_time,view_number,vote_number,title,message,user_id) VALUES ('{}','{}','{}','{}','{}','{}');".format(
         submission_time, view_number, vote_number, question_title, question_message, question_user))
-    return sql_query_post(str(sql_to_insert))
+    return db_connection.db_update(str(sql_to_insert))
 
 
 def select_user():
     select_user_query = """SELECT id, username FROM users;"""
-    return sql_query_get(select_user_query)
+    return db_connection.db_request(select_user_query)
 
 
 def add_new_answer(question_id):
@@ -83,21 +49,32 @@ def add_new_answer(question_id):
     user_id = request.form["user"]
     sql_to_insert_answer = ("INSERT INTO answer (submission_time,vote_number,question_id,message,user_id) VALUES ('{}','{}','{}','{}','{}');".format(
         submission_time, vote_number, question_id, answer_message, user_id))
-    sql_query_post(str(sql_to_insert_answer))
+    db_connection.db_update(str(sql_to_insert_answer))
 
 
-def select_query(column, table, criteria, condition):
+def select_query_where(column, table, criteria, condition):
     """SELECT row or rows from given table.
      Input parameters: table=given table, criteria= WHERE criteria, condition= WHERE condition"""
     question_query = ("SELECT {} FROM {} WHERE {}='{}';".format(column, table, criteria, condition))
-    return sql_query_get(question_query)
+    return db_connection.db_request(question_query)
+
+
+def select_query(column, table):
+    """SELECT row or rows from given table.Input parameters: column= column from given table table=given table"""
+    select_table = ("SELECT {} FROM {};".format(column, table))
+    return db_connection.db_request(select_table)
+
+
+def select_order_by_query():
+    question_table = ("""SELECT * FROM question ORDER BY id LIMIT 5;""")
+    return db_connection.db_request(question_table)
 
 
 def delete_query(table, criteria, condition):
     """DELETE row or rows from given table.
      Input parameters: table=given table, criteria= WHERE criteria, condition= WHERE condition"""
     sql_to_delete = ("DELETE FROM  {} WHERE {}={};".format(table, criteria, condition))
-    return sql_query_post(str(sql_to_delete))
+    return db_connection.db_update(str(sql_to_delete))
 
 
 def edit_question_query(_id):
@@ -106,7 +83,7 @@ def edit_question_query(_id):
     question_message = request.form['message']
     sql_to_edit_question = ("UPDATE question SET title= '{}', message='{}' WHERE id= {};".format(
         question_title, question_message, _id))
-    sql_query_post(str(sql_to_edit_question))
+    db_connection.db_update(str(sql_to_edit_question))
 
 
 def question_select_query(question_id):
@@ -115,7 +92,7 @@ def question_select_query(question_id):
                            FROM question
                            LEFT JOIN users ON question.user_id=users.id
                            WHERE question.id = {};""".format(question_id))
-    return sql_query_get(str(question_query))
+    return db_connection.db_request(str(question_query))
 
 
 def answer_select_query(question_id):
@@ -124,7 +101,7 @@ def answer_select_query(question_id):
                          FROM answer
                          LEFT JOIN users ON answer.user_id = users.id
                          WHERE answer.question_id = {}; """.format(question_id))
-    return sql_query_get(str(answer_query))
+    return db_connection.db_request(str(answer_query))
 
 
 def question_comment_select_query(question_id):
@@ -133,7 +110,7 @@ def question_comment_select_query(question_id):
                                 FROM comment
                                 LEFT JOIN users ON comment.user_id = users.id
                                 WHERE comment.question_id = {}; """.format(question_id))
-    return sql_query_get(str(question_comment_query))
+    return db_connection.db_request(str(question_comment_query))
 
 
 def answer_comment_select_query(question_id):
@@ -143,20 +120,32 @@ def answer_comment_select_query(question_id):
                                  LEFT JOIN users ON comment.user_id = users.id
                                  LEFT JOIN answer ON comment.answer_id = answer.id
                                  WHERE answer.question_id = {}; """.format(question_id))
-    return sql_query_get(str(answer_comment_query))
+    return db_connection.db_request(str(answer_comment_query))
 
 
 def delete_answer_comment_query(question_id):
     answer_comment_delete = ("""DELETE FROM comment
                                 WHERE answer_id
                                 IN(SELECT answer_id FROM answer WHERE question_id={});""".format(question_id))
-    return sql_query_post(str(answer_comment_delete))
+    return db_connection.db_update(str(answer_comment_delete))
+
+
+def delete_tag_query(question_id, tag_id):
+    sql_to_delete = ("DELETE FROM  question_tag WHERE tag_id={} AND question_id={};".format(tag_id, question_id))
+    db_connection.db_update(str(sql_to_delete))
 
 
 def question_tag_insert_query(question_id, tag_item):
     question_tag_insert = ("""INSERT INTO question_tag (question_id,tag_id)
                               VALUES ('{}','{}');""".format(question_id, int(tag_item)))
-    return sql_query_post(question_tag_insert)
+    return db_connection.db_update(question_tag_insert)
+
+
+def insert_register_user(user_name, date):
+    register_user_query = """INSERT INTO users
+                            (username, date)
+                            VALUES ('{}','{}')""".format(user_name, date)
+    db_connection.db_update(str(register_user_query))
 
 
 def tag_select_query(question_id):
@@ -165,7 +154,12 @@ def tag_select_query(question_id):
                       FROM question_tag
                       INNER JOIN tag ON question_tag.tag_id=tag.id
                       WHERE question_id = {};""".format(question_id))
-    return sql_query_get(str(tag_query))
+    return db_connection.db_request(str(tag_query))
+
+
+def insert_tag_query(tag_to_add):
+    tag_insert_query = """INSERT INTO tag (name) VALUES ('{}');""".format(tag_to_add)
+    db_connection.db_update(tag_insert_query)
 
 
 def add_new_comment(_id, id_type):
@@ -177,7 +171,7 @@ def add_new_comment(_id, id_type):
     user_id = request.form["user"]
     sql_to_insert_comment = ("INSERT INTO comment ({},message,submission_time,edited_count,user_id) VALUES ('{}','{}','{}','{}','{}');".format(
         id_type, _id, comment_message, submission_time, edit_number, user_id))
-    sql_query_post(str(sql_to_insert_comment))
+    db_connection.db_update(str(sql_to_insert_comment))
 
 
 def vote_update_sql_query(table, _id, direction):
@@ -185,7 +179,7 @@ def vote_update_sql_query(table, _id, direction):
     Input parameters:table=given table(answer or question), _id = answer_id or question_id,
     direction= 'up' or 'down'"""
     select_query = ("SELECT vote_number FROM {} WHERE id={};".format(table, _id))
-    vote_number = sql_query_get(select_query)
+    vote_number = db_connection.db_request(select_query)
     votes = int(vote_number[0][0])
     if direction == 'up':
         votes += 1
@@ -193,17 +187,18 @@ def vote_update_sql_query(table, _id, direction):
         votes -= 1
     sql_to_edit_vote = ("UPDATE {} SET vote_number= {} WHERE id= {};".format(
         table, votes, _id))
-    sql_query_post(str(sql_to_edit_vote))
+    db_connection.db_update(str(sql_to_edit_vote))
 
 
 def update_view_count_query(question_id):
     '''Increases the question's view counter by 1'''
-    view_count = select_query("view_number", "question", "id", question_id)
+    view_count = select_query_where("view_number", "question", "id", question_id)
     new_view_count = int(view_count[0][0]) + 1
     print(view_count)
     view_update_query = """UPDATE question SET view_number={} WHERE id={};""".format(new_view_count, question_id)
-    sql_query_post(view_update_query)
-    
+    db_connection.db_update(view_update_query)
+
+
 def user_answers_query(user_id):
     """Select Users's Answers (and the relevant Questions)
     from the "answer" and "question" tables"""
@@ -212,7 +207,7 @@ def user_answers_query(user_id):
                              INNER JOIN answer
                              ON question.id = answer.question_id
                              WHERE answer.user_id={};""".format(user_id))
-    return sql_query_get(user_answers_query)
+    return db_connection.db_request(user_answers_query)
 
 
 def user_question_comments_query(user_id):
@@ -221,7 +216,7 @@ def user_question_comments_query(user_id):
     user_question_comments_query = ("""SELECT question.title, comment.message
                                        FROM comment INNER JOIN question ON question.id=comment.question_id
                                        WHERE comment.user_id={};""".format(user_id))
-    return sql_query_get(user_question_comments_query)
+    return db_connection.db_request(user_question_comments_query)
 
 
 def user_answer_comments_query(user_id):
@@ -231,5 +226,4 @@ def user_answer_comments_query(user_id):
                                      FROM comment LEFT JOIN answer ON answer.id=comment.answer_id
                                      INNER JOIN question ON question.id=answer.question_id
                                      WHERE comment.user_id={};""".format(user_id))
-    return sql_query_get(user_answer_comments_query)
-
+    return db_connection.db_request(user_answer_comments_query)
