@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ url_for ( 'static', filename='question_details.css' ) }}">
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
+        </style>
+        <title>
+        User Activities
+        </title>
+    </head>
+    <body>
+        <h3>
+            {{ user_name }}
+        </h3>
+        <h2>
+            Questions
+        </h2>
+        {% if user_questions|length != 0 %}
+            <table id="queryresult">
+                <tr id="header">
+                    {% for data in questions_header %}
+                    <th>{{ data }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in user_questions %}
+                <tr id="row">
+                    <td id=title-column><a href="../question/{{row[1]}}">{{ row[2] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>
+                There are no Questions by {{ user_name }}!
+            </p>
+        {% endif %}
+        <h2>
+            Answers
+        </h2>
+        {% if user_answers|length != 0 %}
+            <table id="queryresult">
+                <tr id="header">
+                    {% for data in answers_header %}
+                    <th>{{ data }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in user_answers %}
+                <tr id="row">
+                    <td id=title-column><a href="../question/{{row[1]}}">{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>
+                There are no Answeres by {{ user_name }}!
+            </p>
+        {% endif %}
+        <h2>
+            Comments
+        </h2>
+        {% if user_question_comments|length + user_answer_comments|length != 0 %}
+            <table id="queryresult">
+                <tr id="header">
+                    {% for data in comments_header %}
+                    <th>{{ data }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in user_question_comments %}
+                <tr id="row">
+                    <td id=title-column><a href="../question/{{row[0]}}">{{ row[1] }}</td>
+                    <td></td>
+                    <td>{{ row[3] }}</td>
+                </tr>
+                {% endfor %}
+                {% for row in user_answer_comments %}
+                <tr id="row">
+                    <td id=title-column><a href="../question/{{row[0]}}">{{ row[1] }}</td>
+                    <td id=title-column><a href="../question/{{row[0]}}">{{ row[3] }}</td>
+                    <td>{{ row[5] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>
+                There are no Comments by {{ user_name }}!
+            </p>
+        {% endif %}
+        <p>
+            <a href="/">Back to Home</a>
+        </p>
+        <footer>
+            <p>
+                <font size="2"> Created by: <img src="/static/beanbaglogo.png" alt="BeanBag Team"> </font>
+            </p>
+            <p>
+                <font size="1"> We <em>DO</em> accept donations ;) </font>
+            </p>
+        </footer>
+    </body>
+</html>
