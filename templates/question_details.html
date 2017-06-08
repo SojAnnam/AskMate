@@ -1,7 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <link rel="stylesheet" href="{{ url_for ( 'static', filename='question_details.css' ) }}">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Barrio|Graduate|Special+Elite');
     </style>
@@ -14,158 +18,149 @@
 </head>
 
 <body>
-    <div>
-        <h1>{{question[4]}}</h1>
-        <p>
-            <h3>{{question[5]}}</h3>
-        </p>
-
-        <ul class=tag>
-            {% for tag in tag_table %}
-            <li>{{tag[2]}}
-                <form action="/question/{{ tag[0] }}/tag/{{ tag[1] }}/delete" method="POST">
-                    <input class=tag type="submit" value="X" align="center" />
+    <div class="container-fluid">
+        <div class="row">
+            <div class=col-md-9>
+                <h2>{{question[4]}}</h2>
+                <p>
+                    <h3 style="font-size:15px">{{question[5]}}</h3>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <p>
+                    <h3>Question Details</h3>
+                </p>
+                <table class="table-bordered">
+                    <tr align="center">
+                        <th style="padding-right:3px;text-align:center;">ID</th>
+                        <th style="padding-right:3px;text-align:center;">Submission Time</th>
+                        <th style="padding-right:3px;text-align:center;">Views</th>
+                        <th style="padding-right:3px;text-align:center;">Vote</th>
+                        <th style="padding-right:3px;text-align:center;">User</th>
+                    </tr>
+                    <tr align="left">
+                        <td>{{question[0]}}</td>
+                        <td>{{question[1]}}</td>
+                        <td>{{question[2]}}</td>
+                        <td>{{question[3]}}</td>
+                        <td>{{question[6]}}</td>
+                    </tr>
+                </table>
+                <form action=./{{question_id}}/edit method="GET">
+                    <p><input class=edit-question type="submit" name="editquestion" value="Edit question" id="editquestion"
+                            style="font-size:10px"></p>
                 </form>
-            </li>
-            {% endfor %}
-        </ul>
-        <form action=./{{question_id}}/new-tag method="GET">
-            <p><input class=new-tag type="submit" name="newtag" value="New tag" id="newtag"></p>
-        </form>
 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <form action=./{{question_id}}/new-answer method="GET">
+                    <input class=btn-primary type="submit" name="newanswer" value="New answer" id="newanswer" style="font-size: 10px">
+                </form>
+                <table class=table-hover>
+                    <tr>
+                        <th align="center">Answer</th>
+                        <th align="center">Votes</th>
+                        <th align="center"></th>
+                        <th align="center">Submission Time</th>
+                        <th align="center">User</th>
+                        <th align="center"></th>
+                        <th align="center"></th>
+                    </tr>
+                    {% for row in answers %}
+                    <tr>
+                        <td width="70%" align="left">{{row[3]}}</td>
+
+                        <td width="5%" align="center">{{row[2]}}</td>
+                        <td width="5%">
+                            <form action="/answer/{{ row[0] }}/vote-up" method="POST">
+                                <input type=hidden value="{{question_id}}" name="questionid" />
+                                <input class="btn-basic btn-xs" type="submit" value="&#9650;" />
+                            </form>
+                            <form action="/answer/{{ row[0] }}/vote-down" method="POST">
+                                <input type=hidden value="{{question_id}}" name="questionid" />
+                                <input class="btn-basic btn-xs" type="submit" value="&#9660;" />
+                            </form>
+                        </td>
+                        <td width="15%" align="center">{{row[1]}}</td>
+                        <td width="70%" align="left">{{row[4]}}</td>
+                        <td width="5%">
+                            <form action="/answer/{{ row[0] }}/new-comment" method="GET">
+                                <input type=hidden value="{{question_id}}" name="questionid" />
+                                <input class="btn-basic btn-xs" type="submit" name="newcomment" value="New comment" id="newcomment" />
+                            </form>
+                        </td>
+                        <td width="5%">
+                            <form action="/answer/{{ row[0] }}/delete" method="POST">
+                                <input type=hidden value="{{question_id}}" name="questionid" />
+                                <input class="btn-basic btn-xs" align="center" type="submit" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                    {% if answer_comment_table|count > 0 %}
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                            <tr>
+                                <th align="left">Comment</th>
+                                <th align="left">User</th>
+                            </tr>
+                            {%endif%} {% for answer_comment in answer_comment_table %}{% if row[0]== answer_comment[1]%}
+
+                            <tr>
+                                <td align="left">{{answer_comment[2]}}</td>
+                                <td align="left">{{answer_comment[4]}}</td>
+                                <td>
+                                    <form action="/comment/{{ answer_comment[0] }}/delete" method="POST">
+                                        <input type=hidden value="{{question_id}}" name="questionid" />
+                                        <input class="btn-xs btn-basic" align="center" type="submit" value="Delete" />
+                                    </form>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                    {% endif %} {% endfor %} {% endfor %}
+                </table>
+
+            </div>
+            <div class="col-md-3">
+                <p>
+                    <h2>Comments</h2>
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <p><a href="/">Back to Home</a></p>
+    <footer>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table-bordered">
+                    <tr>
+                        {% for tag in tag_table %}
+                        <td style="padding-right:5px;padding-left:5px;text-align:center;"> {{tag[2]}}
+                            <form action="/question/{{ tag[0] }}/tag/{{ tag[1] }}/delete" method="POST">
+                                <input class="btn-danger btn-xs" type="submit" value="X" align="center" style="padding-top:0;padding-bottom:0;" />
+                            </form>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </table>
+
+                <form action=./{{question_id}}/new-tag method="GET">
+                    <p><input class=btn-primary type="submit" name="newtag" value="New tag" id="newtag"></p>
+                </form>
+            </div>
+        </div>
 
         <p>
-            <h2 class=question>Question Details</h2>
+            <font size="2"> Created by: BeanBag Team </font>
         </p>
-        <table class="details">
-            <tr>
-                <th class="details" align="left">ID</th>
-                <th class="details" align="left">Submission Time</th>
-                <th class="details" align="left">Views</th>
-                <th class="details" align="left">Vote</th>
-                <th class="details" align="left">User</th>
-            </tr>
-            <tr>
-                <td class="details">{{question[0]}}</td>
-                <td class="details">{{question[1]}}</td>
-                <td class="details">{{question[2]}}</td>
-                <td class="details">{{question[3]}}</td>
-                <td class="details">{{question[6]}}</td>
-            </tr>
-        </table>
-        <form action=./{{question_id}}/edit method="GET">
-            <p><input class=edit-question type="submit" name="editquestion" value="Edit question" id="editquestion"></p>
-        </form>
-        <p>
-            <h2 class=comment>Comments</h2>
-        </p>
-        <table class="comment">
-            {% if comments|count > 0 %}
-            <tr>
-                <th class="comment" align="left">ID</th>
-                <th class="comment" align="left">Comments</th>
-                <th class="comment" align="left">Submission Time</th>
-                <th class="comment" align="left">User</th>
-            </tr>
-            {%endif%} {% for comment in comments %}
-            <tr>
-                <td class="comment" align="left">{{comment[0]}}</td>
-                <td class="comment" align="left">{{comment[1]}}</td>
-                <td class="comment" align="left">{{comment[2]}}</td>
-                <td class="comment" align="left">{{comment[3]}}</td>
-
-                <td>
-                    <form action="/comment/{{ comment[0] }}/delete" method="POST">
-                        <input type=hidden value="{{question_id}}" name="questionid" />
-                        <input class=delete align="center" type="submit" value="Delete Comment" />
-                    </form>
-                </td>
-            </tr>
-
-            {% endfor %}
-        </table>
-        <form action=./{{question_id}}/new-comment method="GET">
-            <p><input class=new-comment type="submit" name="newcomment" value="New comment" id="newcomment"></p>
-        </form>
-        <p>
-            <h2 class=answer>Answers</h2>
-        </p>
-
-        <table class="answers">
-            <tr>
-                <th class="answers" align="center">ID</th>
-                <th class="answers" align="center">Answer</th>
-                <th class="answers" align="center">Votes</th>
-                <th class="answers" align="center"></th>
-                <th class="answers" align="center">Submission Time</th>
-                <th class="answers" align="center">User</th>
-                <th class="answers" align="center"></th>
-                <th class="answers" align="center"></th>
-            </tr>
-            {% for row in answers %}
-            <tr>
-                <td width="5%" class="answers" align="center">{{row[0]}}</td>
-                <td width="70%" class="answers" align="left">{{row[3]}}</td>
-
-                <td width="5%" class="answers" align="center">{{row[2]}}</td>
-                <td width="5%">
-                    <br>
-                    <form action="/answer/{{ row[0] }}/vote-up" method="POST">
-                        <input type=hidden value="{{question_id}}" name="questionid" />
-                        <input class=vote align="center" type="submit" value="&#9650;" />
-                    </form>
-                    <form action="/answer/{{ row[0] }}/vote-down" method="POST">
-                        <input type=hidden value="{{question_id}}" name="questionid" />
-                        <input class=vote align="center" type="submit" value="&#9660;" />
-                    </form>
-                </td>
-                <td width="10%" class="answers" align="center">{{row[1]}}</td>
-                <td width="70%" class="answers" align="left">{{row[4]}}</td>
-                <td width="5%">
-                    <form action="/answer/{{ row[0] }}/new-comment" method="GET">
-                        <input type=hidden value="{{question_id}}" name="questionid" />
-                        <input class=new-comm type="submit" name="newcomment" value="New comment" id="newcomment" style="font-size: 15px" />
-                    </form>
-                </td>
-                <td width="5%">
-                    <form action="/answer/{{ row[0] }}/delete" method="POST">
-                        <input type=hidden value="{{question_id}}" name="questionid" />
-                        <input class=delete align="center" type="submit" value="Delete" />
-                    </form>
-                </td>
-            </tr>
-            {% if answer_comment_table|count > 0 %}
-            <tr class=answer_comment>
-                <th class="comment" align="left">ID</th>
-                <th class="comment" align="left">Comments</th>
-                <th class="comment" align="left">Submission Time</th>
-                <th class="comment" align="left">User</th>
-            </tr>
-            {%endif%} {% for answer_comment in answer_comment_table %}{% if row[0]== answer_comment[1]%}
-
-            <tr>
-                <td class="comment" align="left">{{answer_comment[0]}}</td>
-                <td class="comment" align="left">{{answer_comment[2]}}</td>
-                <td class="comment" align="left">{{answer_comment[3]}}</td>
-                <td class="comment" align="left">{{answer_comment[4]}}</td>
-                <td>
-                    <form action="/comment/{{ answer_comment[0] }}/delete" method="POST">
-                        <input type=hidden value="{{question_id}}" name="questionid" />
-                        <input class=delete align="center" type="submit" value="Delete Comments" />
-                    </form>
-                </td>
-            </tr>
-            {% endif %} {% endfor %} {% endfor %}
-        </table>
-        <form action=./{{question_id}}/new-answer method="GET">
-            <p><input class=new-answer type="submit" name="newanswer" value="New answer" id="newanswer" style="font-size: 20px"></p>
-        </form>
-        <p><a href="/">Back to Home</a></p>
-        <footer>
-            <p>
-                <font size="2"> Created by: BeanBag Team </font>
-            </p>
-        </footer>
+    </footer>
 </body>
 
 </html>
