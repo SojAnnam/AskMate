@@ -3,7 +3,7 @@ html{
 	}
 body { 
 	background-color:lightgray ;
-	background-image: url(/static/robi4.png);
+	background-image: url(/static/robi4-opacity.png);
 	background-repeat: no-repeat;
 	background-position: right;
 	background-attachment: fixed;
